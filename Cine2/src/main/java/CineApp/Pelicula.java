@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package CineApp;
 
 /**
@@ -9,7 +5,13 @@ package CineApp;
  * @author Alumno
  */
 class Pelicula {
+    
+      //Los demas atributos nose como lo vais a querer definir como duracion etc  
+    
       String titulo;
+      AgeCategory edad;
+      Gender genero;
+      
 
     public String getTitulo() {
         return titulo;
