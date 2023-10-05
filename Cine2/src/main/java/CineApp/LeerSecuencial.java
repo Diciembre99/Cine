@@ -1,8 +1,13 @@
 package CineApp;
 
+import static CineApp.LectorObjetos.fichLector;
 import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class LeerSecuencial {
 
@@ -12,28 +17,16 @@ public class LeerSecuencial {
      *
      * @param nombreArchivo
      */
-    String nombreArchivo;
+    final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt";
     FileReader archivoLectura;
-
-    /**
-     *
-     * @author Alex Pineño Sanchez
-     * 
-     * @param nombreArchivo
-     * @param archivoLectura
-     */
-    public LeerSecuencial(String nombreArchivo, FileReader archivoLectura) {
-        this.nombreArchivo = nombreArchivo;
-        this.archivoLectura = archivoLectura;
-    }
-
+    
     /**
      *@author Alex Pineño Sanchez
      */
-    public void leerSecuencial() {
+    public static void leerSecuencial() {
         try {
-            this.archivoLectura = new FileReader(nombreArchivo);
-            BufferedReader bufferLectura = new BufferedReader(archivoLectura);
+            FileReader fr = new FileReader(nombreArchivo);
+            BufferedReader bufferLectura = new BufferedReader(fr);
 
             String linea;
             while ((linea = bufferLectura.readLine()) != null) {
@@ -45,48 +38,48 @@ public class LeerSecuencial {
         }
     }
 
-    /**
-     *@author Alex Pineño Sanchez
-     * 
-     * @param nombreArchivo
+         /**
+     * Método que lee de un fichero todos los objetos de la clase Película y 
+     * busca el que coincida con el título que se pasa por parámetro, 
+     * cuando lo encuentra escribe su información en consola
+     * @param titulo de la Película a buscar
+     * @return el objeto Película si se ha encontrado; null si no se ha encontrado 
      */
-    public static void leerSecuencial(String nombreArchivo) {
+    public Functions busca(String titulo){  
+        Functions p = null;
+        boolean encontrado = false;
+        ObjectInputStream ois = null;
         try {
-            FileReader archivoLectura = new FileReader(nombreArchivo);
-            BufferedReader bufferLectura = new BufferedReader(archivoLectura);
-
-            String linea;
-            while ((linea = bufferLectura.readLine()) != null) {
-                System.out.println(linea);
+            ois = new ObjectInputStream(new FileInputStream(new File(nombreArchivo))); 
+            p = (Functions) ois.readObject();
+            while (p != null && !encontrado) {
+                if (p.getMovie().equals(titulo)) {
+                        encontrado = true;
+                } else {
+                    p = (Functions)ois.readObject();
+                }  
+            }//Fin del while 
+            if (!encontrado){
+                p = null;
             }
-
-            bufferLectura.close();
-        } catch (IOException e) {
-        }
-
-    }
-
-    /**
-     *
-     * @author Alex Pineño Sanchez
-     * 
-     * @param nombreArchivo
-     * @param archivoLectura
-     */
-    public static void leerSecuencial(String nombreArchivo, FileReader archivoLectura) {
-        try {
-            archivoLectura = new FileReader(nombreArchivo);
-            BufferedReader bufferLectura = new BufferedReader(archivoLectura);
-
-            String linea;
-            while ((linea = bufferLectura.readLine()) != null) {
-                System.out.println(linea);
-            }
-
-            bufferLectura.close();
-        } catch (IOException e) {
-        }
-
-    }
+        } catch (EOFException eofe) {
+            System.out.println("Se ha recorrido todo el fichero sin encontrar la película cuyo nombre es: " + titulo);
+            p = null;   
+        } catch (IOException ioe) {
+            System.out.println("ERROR de E/S: " + ioe.getMessage());
+            p = null;
+        } catch (Exception ex) {
+            System.out.println("ERROR al leer datos: " + ex.getMessage());
+            p = null;
+        }finally{
+            try{
+                if (ois != null) {
+                    ois.close();}
+            }catch(IOException ioe){
+                System.out.println("Error al cerrar el stream de lectura durante la búsqueda " + ioe.getMessage());
+            } 
+        }//Fin del  try
+        return p;
+    }//Fin de busca
 
 }

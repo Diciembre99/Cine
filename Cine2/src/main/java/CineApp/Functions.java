@@ -13,7 +13,6 @@ public class Functions {
     /**
      * Constructor de valores completos
      * @param movie
-     * @param movie
      * @param begin
      * @param end
      * @param ageCategory
@@ -34,9 +33,6 @@ public class Functions {
     }
     //Getters and Setters
 
-    String getMovie() {
-        return movie;
-    }
 
     public void setMovie(String movie) {
         this.movie = movie;
@@ -73,4 +69,14 @@ public class Functions {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
+
+    public String getMovie() {
+        return movie;
+    }
+
+    @Override
+    public String toString() {
+        return "Functions{" + "movie=" + movie + ", begin=" + begin + ", end=" + end + ", ageCategory=" + ageCategory + ", gender=" + gender + '}';
+    }
+    
 }

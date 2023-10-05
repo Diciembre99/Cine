@@ -1,8 +1,13 @@
 package CineApp;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -10,51 +15,28 @@ import java.io.IOException;
  */
 public class EscribirSecuencial {
 
-    String nombreArchivo;
-    FileWriter archivo;
-
-    public EscribirSecuencial(String nombreArchivo) {
-        this.nombreArchivo = nombreArchivo;
-    }
-
+    final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt";
+    
     /**
      * @author Alex Pineño Sanchez
+     * @param pelicula
      * 
-     * @param nombreArchivo
-     * @param escribir
-     * @param append
-     */
-public static void escribirSecuencial(String nombreArchivo, String escribir, boolean append) {
-    try {
-        FileWriter archivoEscritura = new FileWriter(nombreArchivo, append);
-        BufferedWriter bufferEscritura = new BufferedWriter(archivoEscritura);
-        bufferEscritura.write(escribir);
-        bufferEscritura.newLine(); // Agregar un salto de línea
-
-        bufferEscritura.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-
-    /**
-     * @author Alex Pineño Sanchez
      * 
-     * @param escribir
+     * 
      */
-    public void escribirSecuencial(String escribir) {
+    public static void escribirSecuencial(Functions pelicula) {
         try {
-            this.archivo = new FileWriter(nombreArchivo);
-            BufferedWriter bufferEscritura = new BufferedWriter(this.archivo);
-
-            bufferEscritura.write(escribir);
-            bufferEscritura.newLine(); // Agregar un salto de línea
-
-            bufferEscritura.close();
+            FileWriter archivoEscritura = new FileWriter(nombreArchivo, true);
+            BufferedWriter bw = new BufferedWriter(archivoEscritura);
+            bw.write(toStringPelicula(pelicula));
+            bw.newLine();
+            bw.close();
         } catch (IOException e) {
         }
-
     }
-
+    
+        public static String toStringPelicula(Functions pelicula) {
+        
+        return pelicula.getMovie()+" "+pelicula.getAgeCategory()+" "+pelicula.getBegin()+" "+pelicula.getEnd()+" "+pelicula.getGender();
+    }
 }
