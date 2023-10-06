@@ -20,9 +20,6 @@ public class EscribirSecuencial {
     /**
      * @author Alex Pineño Sanchez
      * @param pelicula
-     * 
-     * 
-     * 
      */
     public static void escribirSecuencial(Functions pelicula) {
         try {
