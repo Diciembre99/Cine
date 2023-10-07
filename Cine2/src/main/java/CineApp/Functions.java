@@ -1,13 +1,21 @@
 package CineApp;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 
-public class Functions {
+public class Functions implements Serializable {
     private String movie;
-    private Date begin;
-    private Date end;
-    private AgeCategory ageCategory;
-    private Gender gender;
+    private LocalDate begin;
+
+    public LocalDate getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
+
+
 
 
     /**
@@ -18,7 +26,7 @@ public class Functions {
      * @param ageCategory
      * @param gender
      */
-    public Functions(String movie, Date begin, Date end, AgeCategory ageCategory, Gender gender) {
+    public Functions(String movie, LocalDate begin, LocalDate end, AgeCategory ageCategory, Gender gender) {
         this.movie = movie;
         this.begin = begin;
         this.end = end;
@@ -38,22 +46,16 @@ public class Functions {
         this.movie = movie;
     }
 
-    public Date getBegin() {
+    public LocalDate getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(LocalDate begin) {
         this.begin = begin;
     }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
+    private LocalDate end;
+    private AgeCategory ageCategory;
+    private Gender gender;
     public AgeCategory getAgeCategory() {
         return ageCategory;
     }
@@ -76,7 +78,7 @@ public class Functions {
 
     @Override
     public String toString() {
-        return "Functions{" + "movie=" + movie + ", begin=" + begin + ", end=" + end + ", ageCategory=" + ageCategory + ", gender=" + gender + '}';
+        return "Functions{" + "Pelicula=" + movie + ", Inicio=" + begin + ", Final=" + end + ", Categoria=" + ageCategory + ", Genero: " + gender + '}';
     }
     
 }

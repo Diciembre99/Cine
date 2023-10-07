@@ -12,9 +12,6 @@ public class Main {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
-        Functions pelicula=new Functions("batman",begin,end,AgeCategory.C_18,Gender.ACTION);
-        Functions pelicula2=new Functions("barbie",begin,end,AgeCategory.C_A,Gender.ADVENTURE);
-        
         //EscribirSecuencial.escribirSecuencial(pelicula);
         //EscribirSecuencial.escribirSecuencial(pelicula2);
         
