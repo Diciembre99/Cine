@@ -1,13 +1,8 @@
 package CineApp;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,7 +16,7 @@ public class EscribirSecuencial {
      * @author Alex Pineño Sanchez
      * @param pelicula
      */
-    public static void escribirSecuencial(Functions pelicula) {
+    public static void escribirSecuencial(Billboard pelicula) {
         try {
             FileWriter archivoEscritura = new FileWriter(nombreArchivo, true);
             BufferedWriter bw = new BufferedWriter(archivoEscritura);
@@ -32,8 +27,9 @@ public class EscribirSecuencial {
         }
     }
     
-        public static String toStringPelicula(Functions pelicula) {
+        public static String toStringPelicula(Billboard pelicula) {
         
-        return pelicula.getMovie()+" "+pelicula.getAgeCategory()+" "+pelicula.getBegin()+" "+pelicula.getEnd()+" "+pelicula.getGender();
+            return " ";
+        //return pelicula.getMovie()+" "+pelicula.getAgeCategory()+" "+pelicula.getBegin()+" "+pelicula.getEnd()+" "+pelicula.getGender();
     }
 }

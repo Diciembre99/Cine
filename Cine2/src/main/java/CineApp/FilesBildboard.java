@@ -19,12 +19,12 @@ public class FilesBildboard {
 
     public void ReadBildboardList(String fileName, Functions cartelera) {
         boolean eof = false;
-        Bildboard bildboard;
+        Billboard bildboard;
         try {
             File f = new File(fileName);
             ObjectInputStream oIS = new ObjectInputStream(new FileInputStream(f));
             while (!eof) {
-                bildboard = (Bildboard) oIS.readObject();
+                bildboard = (Billboard) oIS.readObject();
             }
         } catch (IOException iOException) {
             eof = true;

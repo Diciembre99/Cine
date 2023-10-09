@@ -18,9 +18,6 @@ public class Main {
         //EscribirSecuencial.escribirSecuencial(pelicula);
         //EscribirSecuencial.escribirSecuencial(pelicula2);
         
-        
-        
-        System.out.println("");
         System.out.println("Funcion leer:");
         LeerSecuencial.leerSecuencial();
         

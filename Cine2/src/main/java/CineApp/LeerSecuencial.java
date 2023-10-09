@@ -45,7 +45,7 @@ public class LeerSecuencial {
      * @param titulo de la Película a buscar
      * @return el objeto Película si se ha encontrado; null si no se ha encontrado 
      */
-    public Functions busca(String titulo){  
+    public static Functions busca(String titulo){  
         Functions p = null;
         boolean encontrado = false;
         ObjectInputStream ois = null;
