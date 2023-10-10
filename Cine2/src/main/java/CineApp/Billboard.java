@@ -59,4 +59,7 @@ public class Billboard implements Serializable {
     public void setPegi(AgeCategory pegi) {
         this.pegi = pegi;
     }
+    
+    
+    
 }
