@@ -1,9 +1,8 @@
 package CineApp;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Billboard implements Serializable {
+public class Billboard {
     private String pelicula;
     private LocalDate inicio;
     private LocalDate finalizacion;
