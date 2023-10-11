@@ -38,7 +38,11 @@ public class Cine_APS {
         }
         System.out.println("Lista de recursos ");
         System.out.println("================================================");
-        FilesFunction.ReadShowList(file);
+        System.out.println("Escribe la fecha que deseas buscar");
+        int diaBuscar = Integer.parseInt(read.nextLine());
+        String fechaBuscar = String.valueOf(LocalDate.of(date.getYear(), date.getMonth(), diaBuscar));
+        File fileBuscar = new File(fechaBuscar);
+        FilesFunction.ReadShowList(fileBuscar);
         System.out.println("Escribe el nombre de la película a buscar");
         String buscar = read.nextLine();
         FilesFunction.ReadShows(file, buscar);
