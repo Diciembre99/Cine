@@ -4,81 +4,48 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Functions implements Serializable {
-    private String movie;
-    private LocalDate begin;
+    private Billboard billboard;
+    private LocalDate date;
+    private float precio;
+    private int sala;
 
-    public LocalDate getEnd() {
-        return end;
+    public Functions(Billboard billboard, LocalDate date, float precio, int sala) {
+        this.billboard = billboard;
+        this.date = date;
+        this.precio = precio;
+        this.sala = sala;
     }
 
-    public void setEnd(LocalDate end) {
-        this.end = end;
+
+    public Billboard getBillboard() {
+        return billboard;
     }
 
-
-
-
-    /**
-     * Constructor de valores completos
-     * @param movie
-     * @param begin
-     * @param end
-     * @param ageCategory
-     * @param gender
-     */
-    public Functions(String movie, LocalDate begin, LocalDate end, AgeCategory ageCategory, Gender gender) {
-        this.movie = movie;
-        this.begin = begin;
-        this.end = end;
-        this.ageCategory = ageCategory;
-        this.gender = gender;
+    public void setBillboard(Billboard billboard) {
+        this.billboard = billboard;
     }
 
-    /**
-     * Constructor vacío
-     */
-    public Functions() {
-    }
-    //Getters and Setters
-
-
-    public void setMovie(String movie) {
-        this.movie = movie;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public LocalDate getBegin() {
-        return begin;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public void setBegin(LocalDate begin) {
-        this.begin = begin;
-    }
-    private LocalDate end;
-    private AgeCategory ageCategory;
-    private Gender gender;
-    public AgeCategory getAgeCategory() {
-        return ageCategory;
+    public float getPrecio() {
+        return precio;
     }
 
-    public void setAgeCategory(AgeCategory ageCategory) {
-        this.ageCategory = ageCategory;
+    public void setPrecio(float precio) {
+        this.precio = precio;
     }
 
-    public Gender getGender() {
-        return gender;
+    public int getSala() {
+        return sala;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setSala(int sala) {
+        this.sala = sala;
     }
-
-    public String getMovie() {
-        return movie;
-    }
-
-    @Override
-    public String toString() {
-        return "Functions{" + "Pelicula=" + movie + ", Inicio=" + begin + ", Final=" + end + ", Categoria=" + ageCategory + ", Genero: " + gender + '}';
-    }
-    
 }

@@ -17,15 +17,14 @@ public class FilesFunction {
 
         boolean eof = true;
         try {
-            ObjectOutputStream os = new ObjectOutputStream(Files.newOutputStream(file.toPath()));
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
             for (Functions show : shows) {
                 os.writeObject(show);
-                System.out.println(show.getMovie());
-                logger.trace("Error al leer los ficheros");
+                logger.trace("El fichero se escribio correctamente");
             }
             os.close();
         }catch (IOException io) {
-            logger.error("Error al leer los ficheros");
+            logger.error("Error al escribir los ficheros");
         }
 
     }
@@ -72,12 +71,7 @@ public class FilesFunction {
                 }
             }
         } catch (IOException ex) {
-        }
-        for (Functions fun : shows) {
-            if (movie.equalsIgnoreCase(fun.getMovie())) {
-                System.out.println(fun);
-            }
-
+            logger.error("Error");
         }
     }
 }

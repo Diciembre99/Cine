@@ -53,11 +53,11 @@ public class LeerSecuencial {
             ois = new ObjectInputStream(new FileInputStream(new File(nombreArchivo))); 
             p = (Functions) ois.readObject();
             while (p != null && !encontrado) {
-                if (p.getMovie().equals(titulo)) {
-                        encontrado = true;
-                } else {
-                    p = (Functions)ois.readObject();
-                }  
+//                if (p.getMovie().equals(titulo)) {
+//                        encontrado = true;
+//                } else {
+//                    p = (Functions)ois.readObject();
+//                }
             }//Fin del while 
             if (!encontrado){
                 p = null;
