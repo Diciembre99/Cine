@@ -168,7 +168,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
             this.setVisible(false);
             new PaginaModificacionBildboard(this.bildboard).setVisible(true);
         } else {
-
+            jlError.setVisible(true);
         }
     }//GEN-LAST:event_btnCambiarCarteleraActionPerformed
 
