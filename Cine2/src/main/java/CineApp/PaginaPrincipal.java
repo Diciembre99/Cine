@@ -185,7 +185,8 @@ public class PaginaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambiarProgramacionActionPerformed
 
     private void btnNuevaFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaFuncionActionPerformed
-
+        this.setVisible(false);
+        new PaginaCreacionFunctions().setVisible(true);
     }//GEN-LAST:event_btnNuevaFuncionActionPerformed
 
     /**

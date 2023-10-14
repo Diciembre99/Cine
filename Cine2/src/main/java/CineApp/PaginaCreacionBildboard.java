@@ -175,7 +175,7 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addComponent(labelErrorTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -220,7 +220,7 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String titulo = jtfTitulo.getText();
+        String titulo = jtfTitulo.getText(), error="";
         Instant instant,instant2;
         ZonedDateTime zdt,zdt2;
         Billboard aux;
@@ -233,6 +233,7 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         labelErrorTitulo.setVisible(false);
         if (titulo.isBlank()){
             validacion = false;
+            error = "El titulo no puede estar vacio.\n";
         }
         
         try{
@@ -244,8 +245,15 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
             zdt2 = instant2.atZone(ZoneId.systemDefault());
             date2 = zdt2.toLocalDate();
             fFin = date2;
+            
+            if (jdFInicio.getDate().after(jdFFin.getDate())){
+                validacion = false;
+                error += "No puede ser menor la fecha de fin que la inicias.\n";
+            }
+            
         }catch(NullPointerException npe){
             validacion = false;
+            error += "No pueden estar vacias las fechas.\n";
         }
         
         if (validacion){
@@ -261,6 +269,7 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
             escribirSecuencial(aux,true);
             
         }else{
+            labelErrorTitulo.setText(error);
             labelErrorTitulo.setVisible(true);
         }
         

@@ -104,11 +104,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
 
         jtfTitulo.setBackground(new java.awt.Color(204, 204, 204));
         jtfTitulo.setEnabled(false);
-        jtfTitulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfTituloActionPerformed(evt);
-            }
-        });
 
         jLabel6.setText("Restriccion edad");
 
@@ -289,10 +284,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfTituloActionPerformed
-
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         escribirSecuencialLista(this.billboard);
         this.setVisible(false);
@@ -315,7 +306,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
     }//GEN-LAST:event_modificar
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String titulo = jtfTitulo.getText();
+        String titulo = jtfTitulo.getText(), error = "";
         Instant instant, instant2;
         ZonedDateTime zdt, zdt2;
         LocalDate date, date2;
@@ -327,6 +318,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         jlErrorDatos.setVisible(false);
         if (titulo.isBlank()) {
             validacion = false;
+            error = "El titulo no puede estar vacio.\n";
         }
 
         try {
@@ -338,8 +330,13 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             zdt2 = instant2.atZone(ZoneId.systemDefault());
             date2 = zdt2.toLocalDate();
             fFin = date2;
+            if (jdFInicio.getDate().after(jdFFin.getDate())) {
+                validacion = false;
+                error += "No puede ser menor la fecha de fin que la inicias.\n";
+            }
         } catch (NullPointerException npe) {
             validacion = false;
+            error += "No pueden estar vacias las fechas.\n";
         }
 
         if (validacion) {
@@ -347,6 +344,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             jlFunciono.setText("Se ha modificado correctamente la cartelera: " + titulo);
             jlFunciono.setVisible(true);
         } else {
+            jlErrorDatos.setText(error);
             jlErrorDatos.setVisible(true);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
