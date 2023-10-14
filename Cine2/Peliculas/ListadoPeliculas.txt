@@ -1,2 +1,1 @@
-batman C_18 null null ACTION
-barbie C_A null null ADVENTURE
+Titulo*2023-10-02*2023-10-20*TERROR*C_A*
