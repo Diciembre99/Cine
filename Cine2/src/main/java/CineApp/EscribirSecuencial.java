@@ -3,6 +3,7 @@ package CineApp;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +19,11 @@ public class EscribirSecuencial {
     /**
      * @author Alex Pineño Sanchez
      * @param pelicula
+     * @param eliminar
      */
-    public static void escribirSecuencial(Billboard pelicula) {
+    public static void escribirSecuencial(Billboard pelicula, boolean eliminar) {
         try {
-            FileWriter archivoEscritura = new FileWriter(nombreArchivo, true);
+            FileWriter archivoEscritura = new FileWriter(nombreArchivo, eliminar);
             BufferedWriter bw = new BufferedWriter(archivoEscritura);
             bw.write(toStringPelicula(pelicula));
             bw.newLine();
@@ -31,8 +33,21 @@ public class EscribirSecuencial {
         }
     }
     
+    /**
+     * @author Jose Vicente Vargas Mestanza
+     * @param peliculas
+     */
+    public static void escribirSecuencialLista(LinkedList<Billboard> peliculas){
+        boolean primeraVez = false;
+        for (Billboard pelicula : peliculas){
+            escribirSecuencial(pelicula,primeraVez);
+            if(primeraVez){
+                primeraVez = true;
+            }
+        }
+    }
+    
         public static String toStringPelicula(Billboard pelicula) {
-        
-            return pelicula.getPelicula()+" "+pelicula.getPegi()+" "+pelicula.getInicio()+" "+pelicula.getFinalizacion()+" "+pelicula.getGenero();
+            return pelicula.getPelicula()+"*"+pelicula.getInicio()+"*"+pelicula.getFinalizacion()+"*"+pelicula.getGenero()+"*"+pelicula.getPegi()+"*";
     }
 }

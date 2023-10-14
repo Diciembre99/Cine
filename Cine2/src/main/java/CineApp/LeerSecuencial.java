@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.regex.Matcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,22 +22,28 @@ public class LeerSecuencial {
     private static final Logger logger = LogManager.getRootLogger();
 
     /**
-     * @author Alex Pineño Sanchez
+     * @author Alex Pineño Sanchez, Jose Vicente Vargas Mestanza
      */
-    public static void leerSecuencial() {
+    public static LinkedList<Billboard> leerSecuencial() {
+        String[] datosPeliculas;
+        Matcher matcher;
+        LinkedList<Billboard> billboard = new LinkedList();
         try {
             FileReader fr = new FileReader(nombreArchivo);
             BufferedReader bufferLectura = new BufferedReader(fr);
 
             String linea;
             while ((linea = bufferLectura.readLine()) != null) {
-                System.out.println(linea);
+                datosPeliculas = linea.split("\\*");
+                billboard.add(new Billboard(datosPeliculas[0],LocalDate.parse(datosPeliculas[1]),LocalDate.parse(datosPeliculas[2]),Gender.valueOf(datosPeliculas[3]),AgeCategory.valueOf(datosPeliculas[4])));
             }
 
             bufferLectura.close();
         } catch (IOException e) {
             logger.error("Se producio un error en la lectura");
         }
+        
+        return billboard;
     }
 
     public static String leerBillboardPorCriterio(String nombre, String atributo) {
@@ -91,17 +100,14 @@ public class LeerSecuencial {
             
             
             while((pelicula=br.readLine())!=null){
-                String partes[]=pelicula.split(" ");
+                String partes[]=pelicula.split("\\*");
                 
                 if (partes[0].equals(nombre)) {
                     return true;
                 }
                 
                 
-            }
-            
-            
-            
+            }             
         } catch (FileNotFoundException ex) {
             logger.error("Archivo de lectura no encontrado");
         } catch (IOException ex) {

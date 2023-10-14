@@ -4,6 +4,7 @@
  */
 package CineApp;
 
+import static CineApp.EscribirSecuencial.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.time.Instant;
@@ -222,6 +223,7 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         String titulo = jtfTitulo.getText();
         Instant instant,instant2;
         ZonedDateTime zdt,zdt2;
+        Billboard aux;
         LocalDate date, date2;
         Gender genero = (Gender) jcbGenero.getSelectedItem();
         AgeCategory edad = (AgeCategory) jcbEdad.getSelectedItem();
@@ -247,15 +249,17 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         }
         
         if (validacion){
-            this.bildboard.add(new Billboard(titulo,fIni,fFin,genero,edad));
+            aux = new Billboard(titulo,fIni,fFin,genero,edad);
+            this.bildboard.add(aux);
             jlGuardado.setText("Se ha guardado correctamente la cartelera: "+titulo);
             jtfTitulo.setText("");
             jcbGenero.setSelectedIndex(0);
             jcbEdad.setSelectedIndex(0);
             jdFFin.setCalendar(null);
             jdFInicio.setCalendar(null);
-            //this.setVisible(false);
-            //new PaginaPrincipal(this.bildboard).setVisible(true);
+            
+            escribirSecuencial(aux,true);
+            
         }else{
             labelErrorTitulo.setVisible(true);
         }

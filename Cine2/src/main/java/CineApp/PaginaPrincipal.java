@@ -4,6 +4,7 @@
  */
 package CineApp;
 
+import static CineApp.LeerSecuencial.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.LinkedList;
@@ -25,8 +26,10 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         int width = pantalla.width;
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
+        this.bildboard=leerSecuencial();
         initComponents();
         jlError.setVisible(false);
+        
 
     }
 

@@ -4,6 +4,7 @@
  */
 package CineApp;
 
+import static CineApp.EscribirSecuencial.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.time.Instant;
@@ -293,6 +294,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfTituloActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        escribirSecuencialLista(this.billboard);
         this.setVisible(false);
         new PaginaPrincipal(this.billboard).setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
