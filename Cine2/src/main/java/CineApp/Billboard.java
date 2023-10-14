@@ -1,8 +1,9 @@
 package CineApp;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Billboard {
+public class Billboard implements Serializable {
     private String pelicula;
     private LocalDate inicio;
     private LocalDate finalizacion;
@@ -57,5 +58,16 @@ public class Billboard {
 
     public void setPegi(AgeCategory pegi) {
         this.pegi = pegi;
+    }
+
+    @Override
+    public String toString() {
+        return "Billboard{" +
+                "pelicula='" + pelicula + '\'' +
+                ", inicio=" + inicio +
+                ", finalizacion=" + finalizacion +
+                ", genero=" + genero +
+                ", pegi=" + pegi +
+                '}';
     }
 }

@@ -13,16 +13,16 @@ import java.util.Scanner;
 public class Cine_APS {
 
     public static void main(String[] args) {
-        ArrayList<Functions> shows=  new ArrayList<>();
-        Scanner read = new Scanner(System.in);
-
+        String nombre = "barbie";
+        int hora = 5, min = 20;
+        File file;
         LocalDate today = LocalDate.now();
-        LocalDate hora = LocalDate.now();
-        File file = new File(hora+".data");
-        System.out.println(file);
-        Billboard billboard = new Billboard("Barbie", today,today,Gender.ACTION,AgeCategory.C_18);
-        Functions function = new Functions(billboard,today,5.6F,5);
-        shows.add(function);
+        file = FilesFunction.createFilesFunction(nombre,hora,min);
+        ArrayList<Functions> shows = new ArrayList<Functions>();
+        Billboard b = new Billboard(nombre,today,today,Gender.COMEDY,AgeCategory.C_18);
+        Functions f = new Functions(b,today, 6.50F,5,hora,min);
+        shows.add(f);
         FilesFunction.WriteShows(file,shows);
+        FilesFunction.ReadShowList(file);
     }
 }
