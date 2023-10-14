@@ -1,14 +1,13 @@
 package CineApp;
 
+import static CineApp.LectorObjetos.fichLector;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.regex.Matcher;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.io.ObjectInputStream;
 
 public class LeerSecuencial {
 
@@ -19,102 +18,68 @@ public class LeerSecuencial {
      * @param nombreArchivo
      */
     final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt";
-    private static final Logger logger = LogManager.getRootLogger();
-
+    FileReader archivoLectura;
+    
     /**
-     * @author Alex Pineño Sanchez, Jose Vicente Vargas Mestanza
+     *@author Alex Pineño Sanchez
      */
-    public static LinkedList<Billboard> leerSecuencial() {
-        String[] datosPeliculas;
-        Matcher matcher;
-        LinkedList<Billboard> billboard = new LinkedList();
+    public static void leerSecuencial() {
         try {
             FileReader fr = new FileReader(nombreArchivo);
             BufferedReader bufferLectura = new BufferedReader(fr);
 
             String linea;
             while ((linea = bufferLectura.readLine()) != null) {
-                datosPeliculas = linea.split("\\*");
-                billboard.add(new Billboard(datosPeliculas[0],LocalDate.parse(datosPeliculas[1]),LocalDate.parse(datosPeliculas[2]),Gender.valueOf(datosPeliculas[3]),AgeCategory.valueOf(datosPeliculas[4])));
+                System.out.println(linea);
             }
 
             bufferLectura.close();
         } catch (IOException e) {
-            logger.error("Se producio un error en la lectura");
         }
-        
-        return billboard;
     }
 
-    public static String leerBillboardPorCriterio(String nombre, String atributo) {
-
-        String resultado = "No se encuentra";
-        atributo = atributo.toUpperCase();
-
+         /**
+     * Método que lee de un fichero todos los objetos de la clase Película y 
+     * busca el que coincida con el título que se pasa por parámetro, 
+     * cuando lo encuentra escribe su información en consola
+     * @param titulo de la Película a buscar
+     * @return el objeto Película si se ha encontrado; null si no se ha encontrado 
+     */
+    public static Functions busca(String titulo){  
+        Functions p = null;
+        boolean encontrado = false;
+        ObjectInputStream ois = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(nombreArchivo));
-            String linea;
-
-            while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(" ");
-
-                if (partes.length >= 5) {
-                    String nombrePelicula = partes[0];
-
-                    if (nombrePelicula.equals(nombre)) {
-                        switch (atributo) {
-                            case "PEGI":
-                                resultado = partes[1];
-                                break;
-                            case "INICIO":
-                                resultado = partes[2];
-                                break;
-                            case "FINAL":
-                                resultado = partes[3];
-                                break;
-                            case "GENERO":
-                                resultado = partes[4];
-                                break;
-                            default:
-                                resultado = "Atributo no válido";
-                        }
-                    }
-                }
+            ois = new ObjectInputStream(new FileInputStream(new File(nombreArchivo))); 
+            p = (Functions) ois.readObject();
+            while (p != null && !encontrado) {
+                if (p.getMovie().equals(titulo)) {
+                        encontrado = true;
+                } else {
+                    p = (Functions)ois.readObject();
+                }  
+            }//Fin del while 
+            if (!encontrado){
+                p = null;
             }
+        } catch (EOFException eofe) {
+            System.out.println("Se ha recorrido todo el fichero sin encontrar la película cuyo nombre es: " + titulo);
+            p = null;   
+        } catch (IOException ioe) {
+            System.out.println("ERROR de E/S: " + ioe.getMessage());
+            p = null;
+        } catch (Exception ex) {
+            System.out.println("ERROR al leer datos: " + ex.getMessage());
+            p = null;
+        }finally{
+            try{
+                if (ois != null) {
+                    ois.close();}
+            }catch(IOException ioe){
+                System.out.println("Error al cerrar el stream de lectura durante la búsqueda " + ioe.getMessage());
+            } 
+        }//Fin del  try
+        return p;
+    }//Fin de busca
 
-            br.close();
-        } catch (IOException e) {
-            logger.error("Hubo un problema en la rectura");
-        }
-
-        return resultado;
-    }
-    
-    public static boolean buscarPelicula(String nombre){
-        
-        boolean retorno=false;
-        
-        try {
-            BufferedReader br=new BufferedReader(new FileReader(nombreArchivo));
-            String pelicula;
-            
-            
-            while((pelicula=br.readLine())!=null){
-                String partes[]=pelicula.split("\\*");
-                
-                if (partes[0].equals(nombre)) {
-                    return true;
-                }
-                
-                
-            }             
-        } catch (FileNotFoundException ex) {
-            logger.error("Archivo de lectura no encontrado");
-        } catch (IOException ex) {
-            logger.error("Hubo un problema en la rectura");
-        }
-        
-        return retorno;
-        
-    }
 }
