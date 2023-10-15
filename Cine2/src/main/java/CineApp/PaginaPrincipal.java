@@ -26,7 +26,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         int width = pantalla.width;
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
-        this.bildboard=leerSecuencial();
+        this.bildboard=leerSecuencialObjetos();
         initComponents();
         jlError.setVisible(false);
         

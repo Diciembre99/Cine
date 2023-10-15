@@ -1,3 +1,4 @@
+
 package CineApp;
 
 import java.io.BufferedWriter;
@@ -15,39 +16,51 @@ public class EscribirSecuencial {
 
     private static final Logger logger = LogManager.getRootLogger();
     final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt";
-    
+
     /**
      * @author Alex Pineño Sanchez
      * @param pelicula
      * @param eliminar
      */
     public static void escribirSecuencial(Billboard pelicula, boolean eliminar) {
-        try {
-            FileWriter archivoEscritura = new FileWriter(nombreArchivo, eliminar);
-            BufferedWriter bw = new BufferedWriter(archivoEscritura);
-            bw.write(toStringPelicula(pelicula));
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            logger.error("Se ha priducido un error en la escritura");
+        if (!LeerSecuencial.buscarPelicula(pelicula.getPelicula())) {
+            try {
+                FileWriter archivoEscritura = new FileWriter(nombreArchivo, eliminar);
+                BufferedWriter bw = new BufferedWriter(archivoEscritura);
+                bw.write(toStringPelicula(pelicula));
+                bw.newLine();
+                bw.close();
+            } catch (IOException e) {
+                logger.error("Se ha priducido un error en la escritura");
+            }
         }
     }
-    
+
     /**
      * @author Jose Vicente Vargas Mestanza
      * @param peliculas
      */
-    public static void escribirSecuencialLista(LinkedList<Billboard> peliculas){
+    public static void escribirSecuencialLista(LinkedList<Billboard> peliculas) {
         boolean primeraVez = false;
-        for (Billboard pelicula : peliculas){
-            escribirSecuencial(pelicula,primeraVez);
-            if(primeraVez){
+        for (Billboard pelicula : peliculas) {
+            escribirSecuencial(pelicula, primeraVez);
+            if (primeraVez) {
                 primeraVez = true;
             }
         }
     }
     
-        public static String toStringPelicula(Billboard pelicula) {
-            return pelicula.getPelicula()+"*"+pelicula.getInicio()+"*"+pelicula.getFinalizacion()+"*"+pelicula.getGenero()+"*"+pelicula.getPegi()+"*";
+        /**
+     * @author Alex
+     * @param peliculas
+     */
+    public static void escribirSecuencialLista2(LinkedList<Billboard> peliculas,boolean eliminar) {
+        for (Billboard pelicula : peliculas) {
+            escribirSecuencial(pelicula, eliminar);
+        }
+    }
+
+    public static String toStringPelicula(Billboard pelicula) {
+        return pelicula.getPelicula() + "*" + pelicula.getInicio() + "*" + pelicula.getFinalizacion() + "*" + pelicula.getGenero() + "*" + pelicula.getPegi() + "*";
     }
 }

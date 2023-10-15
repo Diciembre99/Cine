@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Billboards>
+    <Billboard>
+        <Nombre>Saló</Nombre>
+        <Inicio>2023-10-16</Inicio>
+        <Final>2023-10-16</Final>
+        <Genero>ACTION</Genero>
+        <CategoriaEdad>C_12</CategoriaEdad>
+    </Billboard>
+    <Billboard>
+        <Nombre>Irreversible</Nombre>
+        <Inicio>2023-10-16</Inicio>
+        <Final>2023-10-16</Final>
+        <Genero>ACTION</Genero>
+        <CategoriaEdad>C_12</CategoriaEdad>
+    </Billboard>
+</Billboards>

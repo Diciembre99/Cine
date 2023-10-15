@@ -1,9 +1,9 @@
-
 package CineApp;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -13,16 +13,13 @@ import java.util.Scanner;
 public class Cine_APS {
 
     public static void main(String[] args) {
-        ArrayList<Functions> shows=  new ArrayList<>();
-        Scanner read = new Scanner(System.in);
+        LinkedList<Billboard> peliculas = new LinkedList<>();
 
-        LocalDate today = LocalDate.now();
-        LocalDate hora = LocalDate.now();
-        File file = new File(hora+".data");
-        System.out.println(file);
-        Billboard billboard = new Billboard("Barbie", today,today,Gender.ACTION,AgeCategory.C_18);
-        Functions function = new Functions(billboard,today,5.6F,5);
-        shows.add(function);
-        FilesFunction.WriteShows(file,shows);
+        peliculas.add(new Billboard("Saló", LocalDate.now(), LocalDate.now(), Gender.ACTION, AgeCategory.C_12));
+        peliculas.add(new Billboard("Irreversible", LocalDate.now(), LocalDate.now(), Gender.ACTION, AgeCategory.C_12));
+    
+        DOM.escribirBillboard(peliculas);
+    
     }
+
 }
