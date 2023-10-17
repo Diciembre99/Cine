@@ -102,6 +102,11 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         jLabel4.setText("Fecha emision");
 
         jcbPelicula.setModel(new DefaultComboBoxModel(nombres.toArray()));
+        jcbPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbPeliculaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Pelicula");
 
@@ -243,7 +248,11 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         try{
             instant = jdcFecha.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
-            fecha = zdt.toLocalDate();           
+            fecha = zdt.toLocalDate();
+            if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+                validacion = false;
+                error += "La fecha debe estar comprendida entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
+            }
         }catch(NullPointerException npe){
             validacion = false;
             error += "No puede estar vacia la fecha.\n";
@@ -255,7 +264,7 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
             jlError.setVisible(true);
         }else{
             aux = new Functions(cartelera,fecha,precioNum,sala,hora,min);
-            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min);
+            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min,fecha.toString());
             
             if (!file.exists()){
                 jlError.setText("Se ha guardado correctamente");
@@ -271,6 +280,10 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jcbPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbPeliculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbPeliculaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

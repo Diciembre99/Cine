@@ -23,13 +23,13 @@ public class FilesFunction {
      * @param nombre Nombre de la pelicula
      * @param hour Hora de emision
      * @param min Minuto de emision
+     * @param fecha
      * @return 
      */
-    public static File createFilesFunction(String nombre, int hour, int min) {
+    public static File createFilesFunction(String nombre, int hour, int min, String fecha) {
         //Fecha actual
-        LocalDate today = LocalDate.now();
-        String pathArch = ".\\Funciones\\" + today + "\\";
-        String pathFile = ".\\Funciones\\" + today + "\\" + nombre + hour + "_" + min + ".txt";
+        String pathArch = ".\\Funciones\\" + fecha + "\\";
+        String pathFile = ".\\Funciones\\" + fecha + "\\" + nombre + hour + "_" + min + ".txt";
         File file = new File(pathArch);
         //Creacion de la carpeta
         file.mkdirs();
@@ -67,7 +67,7 @@ public class FilesFunction {
     public static void WriteShows(LinkedList<Functions> shows) {
         File file;
         for (Functions show : shows) {
-            file = createFilesFunction(show.getBillboard().getPelicula(), show.getHour(), show.getMin());
+            file = createFilesFunction(show.getBillboard().getPelicula(), show.getHour(), show.getMin(), show.getDate().toString());
             if (!file.exists()) {
                 WriteShow(file, show);
             }

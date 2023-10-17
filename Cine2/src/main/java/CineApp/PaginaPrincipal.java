@@ -195,7 +195,8 @@ public class PaginaPrincipal extends javax.swing.JFrame {
      * @author JoseVi
      */
     private void btnCambiarProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarProgramacionActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        new PaginaModificaionFunctions().setVisible(true);
     }//GEN-LAST:event_btnCambiarProgramacionActionPerformed
     /**
      *
