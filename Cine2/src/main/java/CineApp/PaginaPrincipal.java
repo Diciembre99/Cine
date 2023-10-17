@@ -18,25 +18,26 @@ public class PaginaPrincipal extends javax.swing.JFrame {
     private LinkedList<Billboard> bildboard = new LinkedList();
 
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     public PaginaPrincipal() {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
         int width = pantalla.width;
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
-        this.bildboard=leerSecuencial();
+        this.bildboard = leerSecuencial();
         initComponents();
         jlError.setVisible(false);
-        
 
     }
+
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     * @param bildboard
+     */
     public PaginaPrincipal(LinkedList<Billboard> bildboard) {
         this.bildboard = bildboard;
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
@@ -170,9 +171,9 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnCambiarCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCarteleraActionPerformed
         if (!this.bildboard.isEmpty()) {
             this.setVisible(false);
@@ -182,27 +183,31 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCambiarCarteleraActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnNuevaPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPeliculaActionPerformed
         this.setVisible(false);
         new PaginaCreacionBildboard(this.bildboard).setVisible(true);
     }//GEN-LAST:event_btnNuevaPeliculaActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnCambiarProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarProgramacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCambiarProgramacionActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnNuevaFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaFuncionActionPerformed
-        this.setVisible(false);
-        new PaginaCreacionFunctions().setVisible(true);
+        if (!this.bildboard.isEmpty()) {
+            this.setVisible(false);
+            new PaginaCreacionFunctions(this.bildboard).setVisible(true);
+        }else {
+            jlError.setVisible(true);
+        }
     }//GEN-LAST:event_btnNuevaFuncionActionPerformed
 
     /**

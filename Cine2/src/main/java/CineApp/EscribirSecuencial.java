@@ -21,7 +21,8 @@ public class EscribirSecuencial {
      * @param pelicula
      * @param eliminar
      */
-    public static void escribirSecuencial(Billboard pelicula, boolean eliminar) {
+    
+     public static void escribirSecuencial(Billboard pelicula, boolean eliminar) {
         try {
             FileWriter archivoEscritura = new FileWriter(nombreArchivo, eliminar);
             BufferedWriter bw = new BufferedWriter(archivoEscritura);
@@ -32,6 +33,7 @@ public class EscribirSecuencial {
             logger.error("Se ha priducido un error en la escritura");
         }
     }
+  
     
     /**
      * @author Jose Vicente Vargas Mestanza
@@ -46,6 +48,8 @@ public class EscribirSecuencial {
             }
         }
     }
+    
+
     
         public static String toStringPelicula(Billboard pelicula) {
             return pelicula.getPelicula()+"*"+pelicula.getInicio()+"*"+pelicula.getFinalizacion()+"*"+pelicula.getGenero()+"*"+pelicula.getPegi()+"*";

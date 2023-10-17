@@ -224,7 +224,6 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         Instant instant,instant2;
         ZonedDateTime zdt,zdt2;
         Billboard aux;
-        LocalDate date, date2;
         Gender genero = (Gender) jcbGenero.getSelectedItem();
         AgeCategory edad = (AgeCategory) jcbEdad.getSelectedItem();
         LocalDate fIni= null,fFin= null;
@@ -239,12 +238,10 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         try{
             instant = jdFInicio.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
-            date = zdt.toLocalDate();
-            fIni = date;
+            fIni = zdt.toLocalDate();
             instant2 = jdFFin.getDate().toInstant();
             zdt2 = instant2.atZone(ZoneId.systemDefault());
-            date2 = zdt2.toLocalDate();
-            fFin = date2;
+            fFin = zdt2.toLocalDate();
             
             if (jdFInicio.getDate().after(jdFFin.getDate())){
                 validacion = false;

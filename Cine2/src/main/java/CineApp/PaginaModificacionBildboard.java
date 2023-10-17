@@ -11,8 +11,14 @@ import com.toedter.calendar.*;
 import static CineApp.EscribirSecuencial.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -28,11 +34,13 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
 
     private LinkedList<Billboard> billboard;
     private ArrayList<String> nombres = new ArrayList();
+    private boolean eliminiados = false;
+    private JFrame jFrame = new JFrame();
 
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     public PaginaModificacionBildboard(LinkedList<Billboard> billboard) {
         this.billboard = billboard;
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
@@ -287,25 +295,26 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        realizarCopia();
         escribirSecuencialLista(this.billboard);
         this.setVisible(false);
         new PaginaPrincipal(this.billboard).setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void jcPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcPeliculasActionPerformed
         seleccionado();
     }//GEN-LAST:event_jcPeliculasActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void modificar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar
         boolean seleccionado = jcModificar.isSelected();
 
@@ -317,9 +326,9 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         btnGuardar.setEnabled(seleccionado);
     }//GEN-LAST:event_modificar
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String titulo = jtfTitulo.getText(), error = "";
         Instant instant, instant2;
@@ -364,11 +373,15 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        
         this.billboard.remove(jcPeliculas.getSelectedIndex());
+        this.eliminiados = true;
+        
+
         if (!this.billboard.isEmpty()) {
             jlFunciono.setText("Se ha eliminado la cartelera: " + this.nombres.get(jcPeliculas.getSelectedIndex()));
             jlFunciono.setVisible(true);
@@ -378,15 +391,16 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
 
             seleccionado();
         } else {
+            realizarCopia();
             this.setVisible(false);
             new PaginaPrincipal(this.billboard).setVisible(true);
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void jcbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEliminarActionPerformed
         boolean seleccionado = jcbEliminar.isSelected();
         btnEliminar.setEnabled(seleccionado);
@@ -428,5 +442,20 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         jcbEliminar.setSelected(false);
         btnEliminar.setEnabled(false);
         btnGuardar.setEnabled(false);
+    }
+    
+    public void realizarCopia(){
+        int opcionFrame;
+        Path origen = FileSystems.getDefault().getPath(".\\Peliculas\\ListadoPeliculas.txt");
+        Path destino = FileSystems.getDefault().getPath(".\\CopiaPeliculas\\ListadoPeliculas"+LocalDate.now().toString()+"_"+LocalTime.now().getHour()+"_"+LocalTime.now().getMinute()+"_"+LocalTime.now().getSecond()+".txt");
+        opcionFrame = JOptionPane.showOptionDialog(this.jFrame, "Ha eliminado una o varias carteleras, quiere crear una copia de seguridad?", "Elementos eliminados", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+
+            if (opcionFrame == 0) {
+                try {
+                    Files.move(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    System.err.println(e);
+                }
+            }
     }
 }
