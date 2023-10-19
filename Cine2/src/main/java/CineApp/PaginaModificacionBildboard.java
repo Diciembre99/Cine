@@ -9,6 +9,7 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import com.toedter.calendar.*;
 import static CineApp.EscribirSecuencial.*;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -55,7 +56,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         }
         initComponents();
         jlErrorDatos.setVisible(false);
-        jlFunciono.setVisible(false);
         jtfTitulo.setText(this.billboard.get(jcPeliculas.getSelectedIndex()).getPelicula());
         jdFInicio.setDate(Date.from(this.billboard.get(jcPeliculas.getSelectedIndex()).getInicio().atStartOfDay(defaultZoneId).toInstant()));
         jdFFin.setDate(Date.from(this.billboard.get(jcPeliculas.getSelectedIndex()).getFinalizacion().atStartOfDay(defaultZoneId).toInstant()));
@@ -90,7 +90,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         jlErrorDatos = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
         jcbEliminar = new javax.swing.JCheckBox();
-        jlFunciono = new javax.swing.JLabel();
         jdFInicio = new com.toedter.calendar.JDateChooser();
         jdFFin = new com.toedter.calendar.JDateChooser();
 
@@ -172,9 +171,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             }
         });
 
-        jlFunciono.setForeground(new java.awt.Color(0, 51, 255));
-        jlFunciono.setText("jLabel8");
-
         jdFInicio.setEnabled(false);
 
         jdFFin.setEnabled(false);
@@ -198,8 +194,8 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                                .addComponent(jcPeliculas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcModificar)
@@ -214,9 +210,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jlErrorDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcEdad, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -230,7 +223,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jlFunciono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlErrorDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -245,9 +238,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jcPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcModificar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlFunciono)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -271,7 +262,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
                         .addComponent(jcGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jlErrorDatos)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -299,7 +290,9 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
      * @author JoseVi
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        realizarCopia();
+        if(this.eliminiados){
+            realizarCopia();
+        }
         escribirSecuencialLista(this.billboard);
         this.setVisible(false);
         new PaginaPrincipal(this.billboard).setVisible(true);
@@ -354,7 +347,10 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             zdt2 = instant2.atZone(ZoneId.systemDefault());
             date2 = zdt2.toLocalDate();
             fFin = date2;
-            if (jdFInicio.getDate().after(jdFFin.getDate())) {
+            if(fFin.isBefore(LocalDate.now())){
+                validacion = false;
+                error += "No puede ser ninguna de las fechas menores que la actual.\n";
+            }else if (jdFInicio.getDate().after(jdFFin.getDate())) {
                 validacion = false;
                 error += "No puede ser menor la fecha de fin que la inicias.\n";
             }
@@ -365,9 +361,12 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
 
         if (validacion) {
             this.billboard.set(jcPeliculas.getSelectedIndex(), new Billboard(titulo, fIni, fFin, genero, edad));
-            jlFunciono.setText("Se ha modificado correctamente la cartelera: " + titulo);
-            jlFunciono.setVisible(true);
+            jlErrorDatos.setText("Se ha modificado correctamente la cartelera: " + titulo);
+            jlErrorDatos.setVisible(true);
+            jlErrorDatos.setForeground(Color.blue);
+            
         } else {
+            jlErrorDatos.setForeground(Color.red);
             jlErrorDatos.setText(error);
             jlErrorDatos.setVisible(true);
         }
@@ -383,9 +382,9 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         
 
         if (!this.billboard.isEmpty()) {
-            jlFunciono.setText("Se ha eliminado la cartelera: " + this.nombres.get(jcPeliculas.getSelectedIndex()));
-            jlFunciono.setVisible(true);
-
+            jlErrorDatos.setText("Se ha eliminado la cartelera: " + this.nombres.get(jcPeliculas.getSelectedIndex()));
+            jlErrorDatos.setVisible(true);
+            jlErrorDatos.setForeground(Color.blue);
             this.nombres.remove(jcPeliculas.getSelectedIndex());
             jcPeliculas.setModel(new DefaultComboBoxModel(nombres.toArray()));
 
@@ -427,7 +426,6 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser jdFFin;
     private com.toedter.calendar.JDateChooser jdFInicio;
     private javax.swing.JLabel jlErrorDatos;
-    private javax.swing.JLabel jlFunciono;
     private javax.swing.JTextField jtfTitulo;
     // End of variables declaration//GEN-END:variables
 

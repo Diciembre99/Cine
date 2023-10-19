@@ -249,9 +249,12 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
             instant = jdcFecha.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
             fecha = zdt.toLocalDate();
-            if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+            if(fecha.isBefore(LocalDate.now())){
                 validacion = false;
-                error += "La fecha debe estar comprendida entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
+                error += "No puede ser ninguna de las fechas menores que la actual.\n";
+            }else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+                validacion = false;
+                error += "La fecha debe ser entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
             }
         }catch(NullPointerException npe){
             validacion = false;
