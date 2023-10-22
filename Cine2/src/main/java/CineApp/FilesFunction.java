@@ -29,7 +29,7 @@ public class FilesFunction {
     public static File createFilesFunction(String nombre, int hour, int min, String fecha) {
         //Fecha actual
         String pathArch = ".\\Funciones\\" + fecha + "\\";
-        String pathFile = ".\\Funciones\\" + fecha + "\\" + nombre + hour + "_" + min + ".txt";
+        String pathFile = ".\\Funciones\\" + fecha + "\\" +  nombre.replace(" ", "_") + hour + "_" + min + ".txt";
         File file = new File(pathArch);
         //Creacion de la carpeta
         file.mkdirs();
@@ -102,7 +102,7 @@ public class FilesFunction {
 
     public static void ReadShows(File fileName, String movie) {
         boolean eof = true;
-        ArrayList<Functions> shows = new ArrayList<Functions>();
+        ArrayList<Functions> shows = new ArrayList();
         try {
             ObjectInput oIS = new ObjectInputStream(Files.newInputStream(fileName.toPath()));
             logger.trace("leer los ficheros");

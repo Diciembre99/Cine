@@ -4,6 +4,7 @@
  */
 package CineApp;
 
+import static CineApp.FilesFunction.ReadShow;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,6 +14,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
@@ -24,18 +27,21 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
     private ArrayList<String> nombres = new ArrayList();
     private ArrayList<String> carpetasCreadas=new ArrayList();
+    private Functions funcion;
+    private File ficheroOrigen;
+    private File carpetaOrigen;
+    private LinkedList<Billboard> billboars= new LinkedList();
     /**
     *
     * @author JoseVi
     */
-    public PaginaModificaionFunctions() {
+    public PaginaModificaionFunctions(LinkedList<Billboard> billboards) {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         File carpetas = new File(".\\Funciones");
         String[] cCreadas = carpetas.list();
+        this.billboars = billboards;
         this.carpetasCreadas.add("Seleccione una opcion");
-        for (String s : cCreadas){
-            this.carpetasCreadas.add(s);
-        }
+        this.carpetasCreadas.addAll(Arrays.asList(cCreadas));
         int height = pantalla.height;
         int width = pantalla.width;
         setSize(width / 2, height / 2);
@@ -90,6 +96,7 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         jLabel1.setText(":");
 
         jbGuardar.setText("Modificacion");
+        jbGuardar.setEnabled(false);
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbGuardarActionPerformed(evt);
@@ -258,84 +265,100 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
     */
     private void jbVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverActionPerformed
         this.setVisible(false);
-        new PaginaPrincipal().setVisible(true);
+        new PaginaPrincipal(this.billboars).setVisible(true);
     }//GEN-LAST:event_jbVolverActionPerformed
     /**
     *
     * @author JoseVi
     */
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-//        Instant instant;
-//        ZonedDateTime zdt;
-//        LocalDate fecha= null;
-//        File file;
-//        
-//        boolean validacion = true;
-//        String error = "";
-//        Functions aux;
-//        Billboard cartelera = this.billboards.get(jcbPelicula.getSelectedIndex());
-//        int hora = jsfHora.getValue();
-//        int min = jsfMin.getValue();
-//        int sala = jcbSala.getSelectedIndex();
-//        String precio = tfPrecio.getText();
-//        float precioNum=0.0f;
-//        
-//        
-//        if(precio.isBlank()){
-//            validacion = false;
-//            error += "No puede estar vacio el precio.\n";
-//        }else{
-//            try{
-//                precioNum = Float.parseFloat(precio);
-//            }catch(NumberFormatException nfe){
-//                validacion = false;
-//                error += "Se ha introducio un valor no valido.\n";
-//            }
-//        }
-//        
-//        try{
-//            instant = jdcFecha.getDate().toInstant();
-//            zdt = instant.atZone(ZoneId.systemDefault());
-//            fecha = zdt.toLocalDate();           
-//        }catch(NullPointerException npe){
-//            validacion = false;
-//            error += "No puede estar vacia la fecha.\n";
-//        }
-//        
-//        if(!validacion){
-//            jlError.setText(error);
-//            jlError.setForeground(Color.red);
-//            jlError.setVisible(true);
-//        }else{
-//            aux = new Functions(cartelera,fecha,precioNum,sala,hora,min);
-//            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min);
-//            
-//            if (!file.exists()){
-//                jlError.setText("Se ha guardado correctamente");
-//                jlError.setVisible(true);
-//                jlError.setForeground(Color.blue);
-//                FilesFunction.WriteShow(file, aux);
-//            }else{
-//                error = "Esta funcion ya existe";
-//                jlError.setText(error);
-//                jlError.setForeground(Color.red);
-//                jlError.setVisible(true);
-//            }
-//        }
+        Instant instant;
+        ZonedDateTime zdt;
+        LocalDate fecha= null;
+        File file;
+        
+        boolean validacion = true;
+        String error = "";
+        Functions aux;
+        Billboard cartelera = this.funcion.getBillboard();
+        int hora = jsfHora.getValue();
+        int min = jsfMin.getValue();
+        int sala = jcbSala.getSelectedIndex();
+        String precio = tfPrecio.getText();
+        float precioNum=0.0f;
+        
+        
+        if(precio.isBlank()){
+            validacion = false;
+            error += "No puede estar vacio el precio.\n";
+        }else{
+            try{
+                precioNum = Float.parseFloat(precio);
+            }catch(NumberFormatException nfe){
+                validacion = false;
+                error += "Se ha introducio un valor no valido.\n";
+            }
+        }
+        
+        try{
+            instant = jdcFecha.getDate().toInstant();
+            zdt = instant.atZone(ZoneId.systemDefault());
+            fecha = zdt.toLocalDate();
+            if(fecha.isBefore(LocalDate.now())){
+                validacion = false;
+                error += "No puede ser ninguna de las fechas menores que la actual.\n";
+            }else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+                validacion = false;
+                error += "La fecha debe ser entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
+            }
+        }catch(NullPointerException npe){
+            validacion = false;
+            error += "No puede estar vacia la fecha.\n";
+        }
+        
+        if(!validacion){
+            jlError.setText(error);
+            jlError.setForeground(Color.red);
+            jlError.setVisible(true);
+        }else{
+            aux = new Functions(cartelera,fecha,precioNum,sala,hora,min);
+            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min,fecha.toString());
+            
+            if (!file.exists() || file.equals(this.ficheroOrigen)){
+                this.ficheroOrigen.delete();
+                jlError.setText("Se ha guardado correctamente");
+                jlError.setVisible(true);
+                jlError.setForeground(Color.blue);
+                FilesFunction.WriteShow(file, aux);
+                if(this.carpetaOrigen.list().length == 0){
+                    this.carpetaOrigen.delete();
+                }
+                vaciarDatos();
+            }else{
+                error = "Esta funcion ya existe";
+                jlError.setText(error);
+                jlError.setForeground(Color.red);
+                jlError.setVisible(true);
+            }
+        }
         
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         File file;
-        
         if(jComboBox1.getSelectedIndex()==0){
             jComboBox2.setModel(new DefaultComboBoxModel());
             jComboBox2.setEnabled(false);
             jComboBox2.addItem("Seleccione una fecha primero");
+            activarDesactivarDatos(false);
         }else{
-            file = new File(".\\Funciones\\"+jComboBox1.getSelectedItem());
+            this.carpetaOrigen = new File(".\\Funciones\\"+jComboBox1.getSelectedItem());
             jComboBox2.setEnabled(true);
-            jComboBox2.setModel(new DefaultComboBoxModel(file.list()));
+            jComboBox2.setModel(new DefaultComboBoxModel(this.carpetaOrigen.list()));
+            this.ficheroOrigen = new File(".\\Funciones\\"+jComboBox1.getSelectedItem()+"\\"+jComboBox2.getSelectedItem());
+            this.funcion = ReadShow(this.ficheroOrigen);
+            ponerDatos();
+            activarDesactivarDatos(true);
         }
         
         
@@ -344,9 +367,55 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
+        File file;
+        if(jComboBox1.getSelectedIndex() != 0){
+            file = new File(".\\Funciones\\"+jComboBox1.getSelectedItem()+"\\"+jComboBox2.getSelectedItem());
+            funcion = ReadShow(file);
+            ponerDatos();
+            activarDesactivarDatos(true);
+        }
     }//GEN-LAST:event_jComboBox2ActionPerformed
-
+    private void ponerDatos(){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        
+        jsfHora.setValue(this.funcion.getHour());
+        jsfMin.setValue(this.funcion.getMin());
+        jcbSala.setSelectedIndex(this.funcion.getSala());
+        jtPelicula.setText(this.funcion.getBillboard().getPelicula());
+        tfPrecio.setText(String.valueOf(this.funcion.getPrecio()));
+        jdcFecha.setDate(Date.from(this.funcion.getDate().atStartOfDay(defaultZoneId).toInstant()));
+        
+    }
+    
+    private void activarDesactivarDatos(boolean activar){
+        jsfHora.setEnabled(activar);
+        jbGuardar.setEnabled(activar);
+        jsfHora.setEnabled(activar);
+        jsfMin.setEnabled(activar);
+        tfPrecio.setEnabled(activar);
+        jcbSala.setEnabled(activar);
+        jdcFecha.setEnabled(activar);
+    }
+    
+    private void vaciarDatos(){
+        File carpetas = new File(".\\Funciones");
+        String[] cCreadas = carpetas.list();
+        this.carpetasCreadas = new ArrayList();
+        
+        jsfHora.setValue(0);
+        jsfMin.setValue(0);
+        jcbSala.setSelectedIndex(0);
+        jtPelicula.setText("");
+        tfPrecio.setText("");
+        jdcFecha.setDate(null);
+        jComboBox1.setSelectedIndex(0);
+        activarDesactivarDatos(false);
+        
+        this.carpetasCreadas.add("Seleccione una opcion");
+        this.carpetasCreadas.addAll(Arrays.asList(cCreadas));
+        jComboBox1.setModel(new DefaultComboBoxModel(this.carpetasCreadas.toArray()));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

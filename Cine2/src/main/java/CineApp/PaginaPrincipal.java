@@ -7,6 +7,7 @@ package CineApp;
 import static CineApp.LeerSecuencial.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
@@ -27,10 +28,10 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         int width = pantalla.width;
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
-        this.bildboard = leerSecuencial();
+        
         initComponents();
         jlError.setVisible(false);
-
+        this.bildboard = leerSecuencial();
     }
 
     /**
@@ -40,6 +41,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
      */
     public PaginaPrincipal(LinkedList<Billboard> bildboard) {
         this.bildboard = bildboard;
+        
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
         int width = pantalla.width;
@@ -196,7 +198,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
      */
     private void btnCambiarProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarProgramacionActionPerformed
         this.setVisible(false);
-        new PaginaModificaionFunctions().setVisible(true);
+        new PaginaModificaionFunctions(this.bildboard).setVisible(true);
     }//GEN-LAST:event_btnCambiarProgramacionActionPerformed
     /**
      *

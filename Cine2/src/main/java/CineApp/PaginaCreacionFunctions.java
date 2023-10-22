@@ -274,6 +274,7 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
                 jlError.setVisible(true);
                 jlError.setForeground(Color.blue);
                 FilesFunction.WriteShow(file, aux);
+                vaciarDatos();
             }else{
                 error = "Esta funcion ya existe";
                 jlError.setText(error);
@@ -288,6 +289,17 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbPeliculaActionPerformed
 
+    private void vaciarDatos(){
+
+        jsfHora.setValue(0);
+        jsfMin.setValue(0);
+        jcbSala.setSelectedIndex(0);
+        jcbPelicula.setSelectedIndex(0);
+        tfPrecio.setText("");
+        jdcFecha.setDate(null);
+
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
