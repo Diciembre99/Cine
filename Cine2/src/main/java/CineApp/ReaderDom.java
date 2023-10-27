@@ -1,5 +1,7 @@
 package CineApp;
 
+// Importaciones
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,14 +28,17 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Clase DOM encargada de leer,escribir y modificar archivos XML
+ * incluido el agregar nodo, eliminar nodo y tambien modificalo
+ * mediante uso de DOM y en lectura tambien uso de la herramienta SAX
+ * 
  * @author Alex Pineño Sanchez
  */
 public class ReaderDom {
 
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger(); // Objeto logger a utilizar
     private static final String ruta = "DOM\\Billboard.xml"; // Ruta relativa al directorio
-    private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Formato de las fechas
 
     /**
      *
@@ -103,6 +108,7 @@ public class ReaderDom {
             File archivo = new File(ruta);
 
             // Crear un nuevo documento XML
+            
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document archivoXML = documentBuilder.parse(archivo);
@@ -131,12 +137,14 @@ public class ReaderDom {
             root.appendChild(billboard1);
 
             // Crear un objeto Transformer para escribir el documento a un archivo
+            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(archivoXML);
             StreamResult streamResult = new StreamResult(archivo);
 
             // Escribir el contenido del documento a un archivo XML
+            
             transformer.transform(domSource, streamResult);
 
             logger.info("Nuevo Billboard agregado al archivo XML.");
@@ -190,7 +198,7 @@ public class ReaderDom {
      * Funcion que devuelve un LinkedList de peliculas que contiene el xml con
      * SAX
      *
-     * @param ruta
+     * @param ruta Ruta del archivo XML a leer
      * @return LinkedList de Billboard
      * @author Alex Pineño Sanchez
      */
@@ -259,7 +267,7 @@ public class ReaderDom {
 
     /**
      *
-     * Funcion que crea un nuevo nodo en xml
+     * Funcion que crea un nuevo nodo en XML
      *
      * @param nuevoValor Nodo a introducir
      * @author Alex Pineño Sanchez
@@ -284,8 +292,7 @@ public class ReaderDom {
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(ruta));
             transformer.transform(source, result);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | ParserConfigurationException | TransformerException | DOMException | SAXException e) {
         }
     }
 
@@ -331,7 +338,6 @@ public class ReaderDom {
 
             logger.info("Nodo '" + nombreNodo + "' agregado en el archivo XML para el billboard con Nombre: " + valorNombreBillboard);
         } catch (ParserConfigurationException | IOException | SAXException | TransformerException e) {
-            e.printStackTrace();
         }
     }
 
@@ -371,7 +377,6 @@ public class ReaderDom {
 
             logger.info("Billboard con Nombre: " + valorNombreBillboard + " eliminado del archivo XML.");
         } catch (ParserConfigurationException | IOException | SAXException | TransformerException e) {
-            e.printStackTrace();
         }
     }
 
@@ -413,7 +418,6 @@ public class ReaderDom {
 
             logger.info("Nodo '" + nombreNodo + "' eliminado del billboard con Nombre: " + valorNombreBillboard);
         } catch (ParserConfigurationException | IOException | SAXException | TransformerException e) {
-            e.printStackTrace();
         }
     }
 }
