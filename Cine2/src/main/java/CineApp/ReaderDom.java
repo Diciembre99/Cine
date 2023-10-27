@@ -3,6 +3,7 @@ package CineApp;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
@@ -40,10 +41,11 @@ public class ReaderDom {
      *
      * @param lista Lista a de tipo billboard a escirbir en tipo xml
      * @author Alex Pineño Sanchez
+     * @param ruta
      */
-    public static void escribirBillboard(LinkedList<Billboard> lista) {
+    public static void escribirBillboard(LinkedList<Billboard> lista, File ruta) {
         try {
-            File archivo = new File(ruta);
+            File archivo = new File(ruta+"\\ListadoPeliculas"+LocalDate.now().toString()+"_"+LocalTime.now().getHour()+"_"+LocalTime.now().getMinute()+"_"+LocalTime.now().getSecond()+".xml");
 
             // Crear un nuevo documento XML
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -148,20 +150,20 @@ public class ReaderDom {
      *
      * Funcion que devuelve un LinkedList de peliculas que contiene el xml
      *
+     * @param ruta
      * @return LinkedList de peliculas
      * @author Alex Pineño Sanchez
      */
-    public static LinkedList<Billboard> leerBillboard() {
+    public static LinkedList<Billboard> leerBillboard(File ruta) {
         LinkedList<Billboard> billboards = new LinkedList<>();
         try {
-            File archivoXML = new File(ruta);
 
             // Crear un objeto DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             // Parsear el archivo XML
-            Document doc = builder.parse(archivoXML);
+            Document doc = builder.parse(ruta);
 
             // Obtener la lista de nodos "Billboard"
             NodeList billboardNodes = doc.getElementsByTagName("Billboard");
@@ -188,10 +190,11 @@ public class ReaderDom {
      * Funcion que devuelve un LinkedList de peliculas que contiene el xml con
      * SAX
      *
+     * @param ruta
      * @return LinkedList de Billboard
      * @author Alex Pineño Sanchez
      */
-    public static LinkedList<Billboard> leerBillboardSAX() {
+    public static LinkedList<Billboard> leerBillboardSAX(String ruta) {
         LinkedList<Billboard> billboards = new LinkedList<>();
         File f = new File(ruta);
 

@@ -326,12 +326,13 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         String titulo = jtfTitulo.getText(), error = "";
         Instant instant, instant2;
         ZonedDateTime zdt, zdt2;
+        Billboard aux;
         LocalDate date, date2;
         Gender genero = (Gender) jcGenero.getSelectedItem();
         AgeCategory edad = (AgeCategory) jcEdad.getSelectedItem();
         LocalDate fIni = null, fFin = null;
 
-        boolean validacion = true;
+        boolean validacion = true, repetido = false;
         jlErrorDatos.setVisible(false);
         if (titulo.isBlank()) {
             validacion = false;
@@ -358,12 +359,26 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             validacion = false;
             error += "No pueden estar vacias las fechas.\n";
         }
+        
+        
 
         if (validacion) {
-            this.billboard.set(jcPeliculas.getSelectedIndex(), new Billboard(titulo, fIni, fFin, genero, edad));
-            jlErrorDatos.setText("Se ha modificado correctamente la cartelera: " + titulo);
-            jlErrorDatos.setVisible(true);
-            jlErrorDatos.setForeground(Color.blue);
+            aux = new Billboard(titulo, fIni, fFin, genero, edad);
+            for(Billboard b: this.billboard){
+                if(b.equals(aux)){
+                    repetido=true;
+                }
+            }
+            if (!repetido) {
+                this.billboard.set(jcPeliculas.getSelectedIndex(),aux);
+                jlErrorDatos.setText("Se ha modificado correctamente la cartelera: " + titulo);
+                jlErrorDatos.setVisible(true);
+                jlErrorDatos.setForeground(Color.blue);
+            }else{
+                jlErrorDatos.setText("Ya existe esta cartelera");
+                jlErrorDatos.setVisible(true);
+                jlErrorDatos.setForeground(Color.red);
+            }
             
         } else {
             jlErrorDatos.setForeground(Color.red);
@@ -396,7 +411,7 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
-    /**
+    /**%
      *
      * @author JoseVi
      */

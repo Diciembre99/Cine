@@ -43,7 +43,7 @@ public class EscribirSecuencial {
         boolean primeraVez = false;
         for (Billboard pelicula : peliculas){
             escribirSecuencial(pelicula,primeraVez);
-            if(primeraVez){
+            if(!primeraVez){
                 primeraVez = true;
             }
         }

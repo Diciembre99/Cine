@@ -2,6 +2,7 @@ package CineApp;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Billboard implements Serializable {
     private String pelicula;
@@ -58,6 +59,39 @@ public class Billboard implements Serializable {
 
     public void setPegi(AgeCategory pegi) {
         this.pegi = pegi;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Billboard other = (Billboard) obj;
+        if (!Objects.equals(this.pelicula, other.pelicula)) {
+            return false;
+        }
+        if (!Objects.equals(this.inicio, other.inicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.finalizacion, other.finalizacion)) {
+            return false;
+        }
+        if (this.genero != other.genero) {
+            return false;
+        }
+        return this.pegi == other.pegi;
     }
 
     @Override

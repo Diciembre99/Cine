@@ -21,10 +21,13 @@ import javax.swing.DefaultComboBoxModel;
  * @author Jose Vicente Vargas Mestanza <jvsonic9@gmail.com>
  */
 public class PaginaCreacionBildboard extends javax.swing.JFrame {
+
     private LinkedList<Billboard> bildboard;
     private ArrayList<String> nombres;
+
     /**
      * Creates new form Prueba2
+     *
      * @param bildboard
      */
     public PaginaCreacionBildboard(LinkedList<Billboard> bildboard) {
@@ -32,11 +35,11 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
         int width = pantalla.width;
-        setSize(width/2, height/2);
-        setLocationRelativeTo(null);        
+        setSize(width / 2, height / 2);
+        setLocationRelativeTo(null);
         initComponents();
         labelErrorTitulo.setVisible(false);
-        
+
     }
 
     /**
@@ -201,56 +204,68 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String titulo = jtfTitulo.getText(), error="";
-        Instant instant,instant2;
-        ZonedDateTime zdt,zdt2;
+        String titulo = jtfTitulo.getText(), error = "";
+        Instant instant, instant2;
+        ZonedDateTime zdt, zdt2;
         Billboard aux;
         Gender genero = (Gender) jcbGenero.getSelectedItem();
         AgeCategory edad = (AgeCategory) jcbEdad.getSelectedItem();
-        LocalDate fIni= null,fFin= null;
+        LocalDate fIni = null, fFin = null;
 
-        boolean validacion = true;
+        boolean validacion = true, repetido = false;
         labelErrorTitulo.setVisible(false);
-        if (titulo.isBlank()){
+        if (titulo.isBlank()) {
             validacion = false;
             error = "El titulo no puede estar vacio.\n";
         }
 
-        try{
+        try {
             instant = jdFInicio.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
             fIni = zdt.toLocalDate();
             instant2 = jdFFin.getDate().toInstant();
             zdt2 = instant2.atZone(ZoneId.systemDefault());
             fFin = zdt2.toLocalDate();
-            if(fFin.isBefore(LocalDate.now())){
+            if (fFin.isBefore(LocalDate.now())) {
                 validacion = false;
                 error += "No puede ser ninguna de las fechas menores que la actual.\n";
-            }else if (jdFInicio.getDate().after(jdFFin.getDate())){
+            } else if (jdFInicio.getDate().after(jdFFin.getDate())) {
                 validacion = false;
                 error += "No puede ser menor la fecha de fin que la inicias.\n";
             }
 
-        }catch(NullPointerException npe){
+        } catch (NullPointerException npe) {
             validacion = false;
             error += "No pueden estar vacias las fechas.\n";
         }
 
-        if (validacion){
-            aux = new Billboard(titulo,fIni,fFin,genero,edad);
-            this.bildboard.add(aux);
-            labelErrorTitulo.setForeground(Color.blue);
-            labelErrorTitulo.setVisible(true);
-            labelErrorTitulo.setText("Se ha guardado correctamente la cartelera: "+titulo);
-            jtfTitulo.setText("");
-            jcbGenero.setSelectedIndex(0);
-            jcbEdad.setSelectedIndex(0);
-            jdFFin.setCalendar(null);
-            jdFInicio.setCalendar(null);
+        if (validacion) {
 
-            escribirSecuencial(aux,true);
+            aux = new Billboard(titulo, fIni, fFin, genero, edad);
+            for (Billboard b : this.bildboard) {
+                if (b.equals(aux)) {
+                    repetido = true;
+                }
+            }
+            if (!repetido) {
+                this.bildboard.add(aux);
+                labelErrorTitulo.setText("Se ha guardado correctamente la cartelera: " + titulo);
+                labelErrorTitulo.setVisible(true);
+                labelErrorTitulo.setForeground(Color.blue);
+                jtfTitulo.setText("");
+                jcbGenero.setSelectedIndex(0);
+                jcbEdad.setSelectedIndex(0);
+                jdFFin.setCalendar(null);
+                jdFInicio.setCalendar(null);
 
-        }else{
+                escribirSecuencial(aux, true);
+            } else {
+                labelErrorTitulo.setText("Ya existe esta cartelera");
+                labelErrorTitulo.setVisible(true);
+                labelErrorTitulo.setForeground(Color.red);
+            }
+
+        } else {
             labelErrorTitulo.setText(error);
             labelErrorTitulo.setVisible(true);
             labelErrorTitulo.setForeground(Color.red);
