@@ -126,7 +126,7 @@
       <SubComponents>
         <Component class="com.toedter.components.JSpinField" name="jsfHora">
           <Properties>
-            <Property name="maximum" type="int" value="24"/>
+            <Property name="maximum" type="int" value="23"/>
             <Property name="minimum" type="int" value="0"/>
           </Properties>
         </Component>

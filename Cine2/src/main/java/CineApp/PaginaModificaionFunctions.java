@@ -26,15 +26,16 @@ import javax.swing.DefaultComboBoxModel;
 public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
     private ArrayList<String> nombres = new ArrayList();
-    private ArrayList<String> carpetasCreadas=new ArrayList();
+    private ArrayList<String> carpetasCreadas = new ArrayList();
     private Functions funcion;
     private File ficheroOrigen;
     private File carpetaOrigen;
-    private LinkedList<Billboard> billboars= new LinkedList();
+    private LinkedList<Billboard> billboars = new LinkedList();
+
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     public PaginaModificaionFunctions(LinkedList<Billboard> billboards) {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         File carpetas = new File(".\\Funciones");
@@ -47,7 +48,7 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
         initComponents();
-        
+
         jlError.setVisible(false);
     }
 
@@ -81,11 +82,12 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jsfHora.setEnabled(false);
-        jsfHora.setMaximum(24);
+        jsfHora.setMaximum(23);
         jsfHora.setMinimum(0);
 
         jsfMin.setEnabled(false);
@@ -153,6 +155,14 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setEnabled(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -171,19 +181,23 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jdcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jbGuardar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jdcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jsfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(3, 3, 3)
+                                            .addComponent(jLabel1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jsfMin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jcbSala, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tfPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                                        .addComponent(jtPelicula))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jsfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(3, 3, 3)
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jsfMin, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jcbSala, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                                    .addComponent(jtPelicula)))))
+                                        .addComponent(btnEliminar)
+                                        .addGap(69, 69, 69)
+                                        .addComponent(jbGuardar))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +256,8 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbGuardar)
-                    .addComponent(jbVolver))
+                    .addComponent(jbVolver)
+                    .addComponent(btnEliminar))
                 .addContainerGap())
         );
 
@@ -260,23 +275,23 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void jbVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverActionPerformed
         this.setVisible(false);
         new PaginaPrincipal(this.billboars).setVisible(true);
     }//GEN-LAST:event_jbVolverActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     *
+     * @author JoseVi
+     */
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Instant instant;
         ZonedDateTime zdt;
-        LocalDate fecha= null;
+        LocalDate fecha = null;
         File file;
-        
+
         boolean validacion = true;
         String error = "";
         Functions aux;
@@ -285,109 +300,121 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         int min = jsfMin.getValue();
         int sala = jcbSala.getSelectedIndex();
         String precio = tfPrecio.getText();
-        float precioNum=0.0f;
-        
-        
-        if(precio.isBlank()){
+        float precioNum = 0.0f;
+
+        if (precio.isBlank()) {
             validacion = false;
             error += "No puede estar vacio el precio.\n";
-        }else{
-            try{
+        } else {
+            try {
                 precioNum = Float.parseFloat(precio);
-            }catch(NumberFormatException nfe){
+            } catch (NumberFormatException nfe) {
                 validacion = false;
                 error += "Se ha introducio un valor no valido.\n";
             }
         }
-        
-        try{
+
+        try {
             instant = jdcFecha.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
             fecha = zdt.toLocalDate();
-            if(fecha.isBefore(LocalDate.now())){
+            if (fecha.isBefore(LocalDate.now())) {
                 validacion = false;
                 error += "No puede ser ninguna de las fechas menores que la actual.\n";
-            }else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+            } else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
                 validacion = false;
-                error += "La fecha debe ser entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
+                error += "La fecha debe ser entre " + cartelera.getInicio().toString() + " y " + cartelera.getFinalizacion().toString();
             }
-        }catch(NullPointerException npe){
+        } catch (NullPointerException npe) {
             validacion = false;
             error += "No puede estar vacia la fecha.\n";
         }
-        
-        if(!validacion){
+
+        if (!validacion) {
             jlError.setText(error);
             jlError.setForeground(Color.red);
             jlError.setVisible(true);
-        }else{
-            aux = new Functions(cartelera,fecha,precioNum,sala,hora,min);
-            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min,fecha.toString());
-            
-            if (!file.exists() || file.equals(this.ficheroOrigen)){
+        } else {
+            aux = new Functions(cartelera, fecha, precioNum, sala, hora, min);
+            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min, fecha.toString());
+
+            if (!file.exists() || file.equals(this.ficheroOrigen)) {
                 this.ficheroOrigen.delete();
                 jlError.setText("Se ha guardado correctamente");
                 jlError.setVisible(true);
                 jlError.setForeground(Color.blue);
                 FilesFunction.WriteShow(file, aux);
-                if(this.carpetaOrigen.list().length == 0){
+                if (this.carpetaOrigen.list().length == 0) {
                     this.carpetaOrigen.delete();
                 }
                 vaciarDatos();
-            }else{
+            } else {
                 error = "Esta funcion ya existe";
                 jlError.setText(error);
                 jlError.setForeground(Color.red);
                 jlError.setVisible(true);
             }
         }
-        
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         File file;
-        if(jComboBox1.getSelectedIndex()==0){
+        if (jComboBox1.getSelectedIndex() == 0) {
             jComboBox2.setModel(new DefaultComboBoxModel());
             jComboBox2.setEnabled(false);
             jComboBox2.addItem("Seleccione una fecha primero");
             activarDesactivarDatos(false);
-        }else{
-            this.carpetaOrigen = new File(".\\Funciones\\"+jComboBox1.getSelectedItem());
+        } else {
+            this.carpetaOrigen = new File(".\\Funciones\\" + jComboBox1.getSelectedItem());
             jComboBox2.setEnabled(true);
             jComboBox2.setModel(new DefaultComboBoxModel(this.carpetaOrigen.list()));
-            this.ficheroOrigen = new File(".\\Funciones\\"+jComboBox1.getSelectedItem()+"\\"+jComboBox2.getSelectedItem());
+            this.ficheroOrigen = new File(".\\Funciones\\" + jComboBox1.getSelectedItem() + "\\" + jComboBox2.getSelectedItem());
             this.funcion = ReadShow(this.ficheroOrigen);
             ponerDatos();
             activarDesactivarDatos(true);
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         File file;
-        if(jComboBox1.getSelectedIndex() != 0){
-            file = new File(".\\Funciones\\"+jComboBox1.getSelectedItem()+"\\"+jComboBox2.getSelectedItem());
-            funcion = ReadShow(file);
+        if (jComboBox1.getSelectedIndex() != 0) {
+            file = new File(".\\Funciones\\" + jComboBox1.getSelectedItem() + "\\" + jComboBox2.getSelectedItem());
+            this.ficheroOrigen = file;
+            this.funcion = ReadShow(file);
             ponerDatos();
             activarDesactivarDatos(true);
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
-    private void ponerDatos(){
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        this.ficheroOrigen.delete();
+        jlError.setText("Se ha eliminado correctamente");
+        jlError.setVisible(true);
+        jlError.setForeground(Color.blue);
+        if (this.carpetaOrigen.list().length == 0) {
+            this.carpetaOrigen.delete();
+        }
+        vaciarDatos();
+
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+    private void ponerDatos() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        
-        jsfHora.setValue(this.funcion.getHour());
-        jsfMin.setValue(this.funcion.getMin());
-        jcbSala.setSelectedIndex(this.funcion.getSala());
-        jtPelicula.setText(this.funcion.getBillboard().getPelicula());
-        tfPrecio.setText(String.valueOf(this.funcion.getPrecio()));
-        jdcFecha.setDate(Date.from(this.funcion.getDate().atStartOfDay(defaultZoneId).toInstant()));
-        
+        if(this.funcion != null){
+            jsfHora.setValue(this.funcion.getHour());
+            jsfMin.setValue(this.funcion.getMin());
+            jcbSala.setSelectedIndex(this.funcion.getSala());
+            jtPelicula.setText(this.funcion.getBillboard().getPelicula());
+            tfPrecio.setText(String.valueOf(this.funcion.getPrecio()));
+            jdcFecha.setDate(Date.from(this.funcion.getDate().atStartOfDay(defaultZoneId).toInstant()));
+        }
+
     }
-    
-    private void activarDesactivarDatos(boolean activar){
+
+    private void activarDesactivarDatos(boolean activar) {
         jsfHora.setEnabled(activar);
         jbGuardar.setEnabled(activar);
         jsfHora.setEnabled(activar);
@@ -395,13 +422,14 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         tfPrecio.setEnabled(activar);
         jcbSala.setEnabled(activar);
         jdcFecha.setEnabled(activar);
+        btnEliminar.setEnabled(activar);
     }
-    
-    private void vaciarDatos(){
+
+    private void vaciarDatos() {
         File carpetas = new File(".\\Funciones");
         String[] cCreadas = carpetas.list();
         this.carpetasCreadas = new ArrayList();
-        
+
         jsfHora.setValue(0);
         jsfMin.setValue(0);
         jcbSala.setSelectedIndex(0);
@@ -410,13 +438,14 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         jdcFecha.setDate(null);
         jComboBox1.setSelectedIndex(0);
         activarDesactivarDatos(false);
-        
+
         this.carpetasCreadas.add("Seleccione una opcion");
         this.carpetasCreadas.addAll(Arrays.asList(cCreadas));
         jComboBox1.setModel(new DefaultComboBoxModel(this.carpetasCreadas.toArray()));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;

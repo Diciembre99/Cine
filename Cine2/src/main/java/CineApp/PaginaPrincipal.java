@@ -320,7 +320,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         if (fileChooser.showOpenDialog(this) != JFileChooser.CANCEL_OPTION) {
             ruta = fileChooser.getSelectedFile().getAbsoluteFile();
             ReaderDom.escribirBillboard(this.bildboard, ruta);
-
+            JOptionPane.showMessageDialog(rootPane, "Se ha exportado correctamente");
         }
     }//GEN-LAST:event_btnExportarActionPerformed
 
@@ -328,14 +328,34 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser(".\\DOM");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo XML", "xml");
         File ruta;
-
+        boolean agregar;
+        int contAgre = 0;
+        int contDesc = 0;
+        
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setDialogTitle("Selecciona un archivo tipo xml");
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setFileFilter(filter);
         if (fileChooser.showOpenDialog(this) != JFileChooser.CANCEL_OPTION) {
-
+             
             ruta = fileChooser.getSelectedFile().getAbsoluteFile();
+            for (Billboard b : ReaderDom.leerBillboardSAX(ruta)) {
+                agregar = true;
+                for (Billboard b2 : this.bildboard) {
+                    if (b.equals(b2)) {
+                        agregar = false;
+                    }
+                }
+                if (agregar) {
+                    this.bildboard.add(b);
+                    contAgre++;
+                } else {
+                    contDesc++;
+                }
+            }
+            escribirSecuencialLista(this.bildboard);
+            JOptionPane.showMessageDialog(rootPane, "Se han guardado "+contAgre+" carteleras\n Se han descartado "+contDesc+" carteleras");
+
             JOptionPane.showMessageDialog(rootPane, "Se ha importado correctamente");
         }
     }//GEN-LAST:event_btnImportarSaxActionPerformed

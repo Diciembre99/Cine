@@ -72,7 +72,7 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jsfHora.setMaximum(24);
+        jsfHora.setMaximum(23);
         jsfHora.setMinimum(0);
 
         jsfMin.setMaximum(59);

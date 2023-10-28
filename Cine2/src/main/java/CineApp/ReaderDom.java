@@ -194,17 +194,16 @@ public class ReaderDom {
      * @return LinkedList de Billboard
      * @author Alex Pineño Sanchez
      */
-    public static LinkedList<Billboard> leerBillboardSAX(String ruta) {
+    public static LinkedList<Billboard> leerBillboardSAX(File ruta) {
         LinkedList<Billboard> billboards = new LinkedList<>();
-        File f = new File(ruta);
-
+        
         try {
             SAXParserFactory spFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = spFactory.newSAXParser(); // Se crea un objeto SAXParser para interpretar el documento XML.
 
             // Se crea un manejador, que recorre el archivo SAX secuencialmente
             ManejadorSAX manejador = new ManejadorSAX();
-            saxParser.parse(f, manejador);
+            saxParser.parse(ruta, manejador);
 
             billboards = manejador.getBillboards();
 
