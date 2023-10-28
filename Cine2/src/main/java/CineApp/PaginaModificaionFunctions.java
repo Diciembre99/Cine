@@ -16,12 +16,12 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Ventana de modificacion de funciones
  *
- * @author JoseVi
+ * @author Jose Vicente Vargas Mestanza
  */
 public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
@@ -30,17 +30,16 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
     private Functions funcion;
     private File ficheroOrigen;
     private File carpetaOrigen;
-    private LinkedList<Billboard> billboars = new LinkedList();
 
     /**
+     * Constructor de la pagina de modificacion
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
-    public PaginaModificaionFunctions(LinkedList<Billboard> billboards) {
+    public PaginaModificaionFunctions() {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         File carpetas = new File(".\\Funciones");
         String[] cCreadas = carpetas.list();
-        this.billboars = billboards;
         this.carpetasCreadas.add("Seleccione una opcion");
         this.carpetasCreadas.addAll(Arrays.asList(cCreadas));
         int height = pantalla.height;
@@ -275,16 +274,19 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
+     * Evento del boton de volver
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void jbVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverActionPerformed
         this.setVisible(false);
-        new PaginaPrincipal(this.billboars).setVisible(true);
+        new PaginaPrincipal().setVisible(true);
     }//GEN-LAST:event_jbVolverActionPerformed
     /**
+     * Evento del boton de guardar se encarga de validar y guardar las
+     * modificaciones
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Instant instant;
@@ -357,7 +359,12 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jbGuardarActionPerformed
-
+    /**
+     * Evento del combo box que se encarga de activar y asignar los elementos de
+     * la segunda combo box
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         File file;
         if (jComboBox1.getSelectedIndex() == 0) {
@@ -377,7 +384,12 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
+    /**
+     * Evento de la segunda combo box en el cual lee los ficheros de cada
+     * funcion y los muestra
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         File file;
         if (jComboBox1.getSelectedIndex() != 0) {
@@ -388,7 +400,12 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
             activarDesactivarDatos(true);
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
-
+    /**
+     * evento del boton de eliminar se encarga de eliminar la funcion
+     * seleccionada
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         this.ficheroOrigen.delete();
         jlError.setText("Se ha eliminado correctamente");
@@ -401,9 +418,14 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnEliminarActionPerformed
+    /**
+     * Funcion encargada de poner los datos de las funciones
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void ponerDatos() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
-        if(this.funcion != null){
+        if (this.funcion != null) {
             jsfHora.setValue(this.funcion.getHour());
             jsfMin.setValue(this.funcion.getMin());
             jcbSala.setSelectedIndex(this.funcion.getSala());
@@ -414,6 +436,11 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Funcion encargada de activar o desactivar los elementos de modificacion
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void activarDesactivarDatos(boolean activar) {
         jsfHora.setEnabled(activar);
         jbGuardar.setEnabled(activar);
@@ -425,6 +452,11 @@ public class PaginaModificaionFunctions extends javax.swing.JFrame {
         btnEliminar.setEnabled(activar);
     }
 
+    /**
+     * Se encarga de vaciar los datos de los elementos de la ventana
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void vaciarDatos() {
         File carpetas = new File(".\\Funciones");
         String[] cCreadas = carpetas.list();

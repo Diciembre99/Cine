@@ -5,9 +5,6 @@
 package CineApp;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
-import com.toedter.calendar.*;
 import static CineApp.EscribirSecuencial.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,6 +25,7 @@ import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Ventana de modificacion de carteleras
  *
  * @author Jose Vicente Vargas Mestanza <jvsonic9@gmail.com>
  */
@@ -39,8 +37,10 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
     private JFrame jFrame = new JFrame();
 
     /**
+     * Constructor de la ventana de modificacion
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
+     * @param billboard recibe una LinkedList de carteleras
      */
     public PaginaModificacionBildboard(LinkedList<Billboard> billboard) {
         this.billboard = billboard;
@@ -285,12 +285,14 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    /**
+       /**
+     * Boton encargada de volver a la pagina principla si se ha eliminado algo
+     * te preguntara si quieres realizar una copia
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        if(this.eliminiados){
+        if (this.eliminiados) {
             realizarCopia();
         }
         escribirSecuencialLista(this.billboard);
@@ -298,15 +300,17 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         new PaginaPrincipal(this.billboard).setVisible(true);
     }//GEN-LAST:event_btnVolverActionPerformed
     /**
+     * Evente de la combo Box que contiene las carteleras creadas
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void jcPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcPeliculasActionPerformed
         seleccionado();
     }//GEN-LAST:event_jcPeliculasActionPerformed
     /**
+     * CheckBox que se encarga de activar los elementos para poder modificar
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void modificar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificar
         boolean seleccionado = jcModificar.isSelected();
@@ -319,8 +323,9 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         btnGuardar.setEnabled(seleccionado);
     }//GEN-LAST:event_modificar
     /**
+     * Boton encargado de validar y guardar las modificaciones de las carteleras
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String titulo = jtfTitulo.getText(), error = "";
@@ -348,10 +353,10 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             zdt2 = instant2.atZone(ZoneId.systemDefault());
             date2 = zdt2.toLocalDate();
             fFin = date2;
-            if(fFin.isBefore(LocalDate.now())){
+            if (fFin.isBefore(LocalDate.now())) {
                 validacion = false;
                 error += "No puede ser ninguna de las fechas menores que la actual.\n";
-            }else if (jdFInicio.getDate().after(jdFFin.getDate())) {
+            } else if (jdFInicio.getDate().after(jdFFin.getDate())) {
                 validacion = false;
                 error += "No puede ser menor la fecha de fin que la inicias.\n";
             }
@@ -359,27 +364,25 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
             validacion = false;
             error += "No pueden estar vacias las fechas.\n";
         }
-        
-        
 
         if (validacion) {
             aux = new Billboard(titulo, fIni, fFin, genero, edad);
-            for(Billboard b: this.billboard){
-                if(b.equals(aux)){
-                    repetido=true;
+            for (Billboard b : this.billboard) {
+                if (b.equals(aux)) {
+                    repetido = true;
                 }
             }
             if (!repetido) {
-                this.billboard.set(jcPeliculas.getSelectedIndex(),aux);
+                this.billboard.set(jcPeliculas.getSelectedIndex(), aux);
                 jlErrorDatos.setText("Se ha modificado correctamente la cartelera: " + titulo);
                 jlErrorDatos.setVisible(true);
                 jlErrorDatos.setForeground(Color.blue);
-            }else{
+            } else {
                 jlErrorDatos.setText("Ya existe esta cartelera");
                 jlErrorDatos.setVisible(true);
                 jlErrorDatos.setForeground(Color.red);
             }
-            
+
         } else {
             jlErrorDatos.setForeground(Color.red);
             jlErrorDatos.setText(error);
@@ -387,14 +390,14 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
     /**
+     * Boton que se encarga de la eliminacion de las carteleras
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+
         this.billboard.remove(jcPeliculas.getSelectedIndex());
         this.eliminiados = true;
-        
 
         if (!this.billboard.isEmpty()) {
             jlErrorDatos.setText("Se ha eliminado la cartelera: " + this.nombres.get(jcPeliculas.getSelectedIndex()));
@@ -411,7 +414,8 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
-    /**%
+    /**
+     * checkbox para habilitar la eliminacion
      *
      * @author JoseVi
      */
@@ -444,6 +448,11 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
     private javax.swing.JTextField jtfTitulo;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Funcion que se encarga colocar los datos de el elemento seleccionado en la combo box
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     public void seleccionado() {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         jtfTitulo.setText(this.billboard.get(jcPeliculas.getSelectedIndex()).getPelicula());
@@ -456,19 +465,23 @@ public class PaginaModificacionBildboard extends javax.swing.JFrame {
         btnEliminar.setEnabled(false);
         btnGuardar.setEnabled(false);
     }
-    
-    public void realizarCopia(){
+    /**
+     * Realiza la copia de seguridad del fichero antes de la eliminacion de elementos
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
+    public void realizarCopia() {
         int opcionFrame;
         Path origen = FileSystems.getDefault().getPath(".\\Peliculas\\ListadoPeliculas.txt");
-        Path destino = FileSystems.getDefault().getPath(".\\CopiaPeliculas\\ListadoPeliculas"+LocalDate.now().toString()+"_"+LocalTime.now().getHour()+"_"+LocalTime.now().getMinute()+"_"+LocalTime.now().getSecond()+".txt");
+        Path destino = FileSystems.getDefault().getPath(".\\CopiaPeliculas\\ListadoPeliculas" + LocalDate.now().toString() + "_" + LocalTime.now().getHour() + "_" + LocalTime.now().getMinute() + "_" + LocalTime.now().getSecond() + ".txt");
         opcionFrame = JOptionPane.showOptionDialog(this.jFrame, "Ha eliminado una o varias carteleras, quiere crear una copia de seguridad?", "Elementos eliminados", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
-            if (opcionFrame == 0) {
-                try {
-                    Files.move(origen, destino, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    System.err.println(e);
-                }
+        if (opcionFrame == 0) {
+            try {
+                Files.move(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.err.println(e);
             }
+        }
     }
 }

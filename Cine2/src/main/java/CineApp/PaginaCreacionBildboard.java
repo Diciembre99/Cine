@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Ventana de creacion de carteleras
  *
  * @author Jose Vicente Vargas Mestanza <jvsonic9@gmail.com>
  */
@@ -26,9 +27,9 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
     private ArrayList<String> nombres;
 
     /**
-     * Creates new form Prueba2
+     * Constructor de la pagina de creacion
      *
-     * @param bildboard
+     * @param bildboard recibe las carteleras ya creadas
      */
     public PaginaCreacionBildboard(LinkedList<Billboard> bildboard) {
         this.bildboard = bildboard;
@@ -202,7 +203,11 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+     /**
+     * Evento del boton guardar se encarga de validar y guardar las funciones
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String titulo = jtfTitulo.getText(), error = "";
         Instant instant, instant2;
@@ -272,7 +277,11 @@ public class PaginaCreacionBildboard extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
-
+    /**
+     * Evento del boton volver
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         this.setVisible(false);
         new PaginaPrincipal(this.bildboard).setVisible(true);

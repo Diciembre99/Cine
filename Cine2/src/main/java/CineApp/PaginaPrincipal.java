@@ -10,28 +10,28 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.LinkedList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
+ * Ventana principal de la aplicacion en ella se accede a todas las opciones
  *
  * @author Jose Vicente Vargas Mestanza <jvsonic9@gmail.com>
  */
 public class PaginaPrincipal extends javax.swing.JFrame {
 
     private LinkedList<Billboard> bildboard = new LinkedList();
+    private LinkedList<Billboard> bildboardDisponibles = new LinkedList();
 
     /**
+     * Constructor basico de la pagina principal que no recibe nada
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     public PaginaPrincipal() {
         File carpetasFunciones = new File(".\\Funciones");
@@ -45,18 +45,25 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         initComponents();
         jlError.setVisible(false);
         this.bildboard = leerSecuencial();
-        for (String s : fechasFunciones) {
+        for (String s : fechasFunciones) { // Comprueba que carpeta de funciones ya ha pasado la fecha y las mueve a una carpeta aparte 
             if (LocalDate.parse(s).isBefore(LocalDate.now())) {
                 moverCarpetasObsoletas(s);
             }
         }
 
+        for (Billboard b : this.bildboard) { //Comprueba que carteleras todavia estan disponibles y las añade a una linkedList
+            if (!b.getFinalizacion().isBefore(LocalDate.now())) {
+                this.bildboardDisponibles.add(b);
+            }
+        }
     }
 
     /**
+     * Segundo constructor utilizado para no tener que volver a llamar al
+     * fichero de carteleras
      *
-     * @author JoseVi
-     * @param bildboard
+     * @author Jose Vicente Vargas Mestanza
+     * @param bildboard recibe la lista de carteleras
      */
     public PaginaPrincipal(LinkedList<Billboard> bildboard) {
         this.bildboard = bildboard;
@@ -234,8 +241,10 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
+     * Evento del boton Modificar Cartelera el cual activa la ventana de cambiar
+     * cartelera
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnCambiarCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCarteleraActionPerformed
         if (!this.bildboard.isEmpty()) {
@@ -246,34 +255,41 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCambiarCarteleraActionPerformed
     /**
+     * Evento del boton Nueva Cartelera
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnNuevaPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPeliculaActionPerformed
         this.setVisible(false);
         new PaginaCreacionBildboard(this.bildboard).setVisible(true);
     }//GEN-LAST:event_btnNuevaPeliculaActionPerformed
     /**
+     * Evento del boton Cambiar Programacion Funcion
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnCambiarProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarProgramacionActionPerformed
         this.setVisible(false);
-        new PaginaModificaionFunctions(this.bildboard).setVisible(true);
+        new PaginaModificaionFunctions().setVisible(true);
     }//GEN-LAST:event_btnCambiarProgramacionActionPerformed
     /**
+     * Evento del boton Crear Nueva Funcion
      *
-     * @author JoseVi
+     * @author Jose Vicente Vargas Mestanza
      */
     private void btnNuevaFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaFuncionActionPerformed
-        if (!this.bildboard.isEmpty()) {
+        if (!this.bildboardDisponibles.isEmpty()) {
             this.setVisible(false);
-            new PaginaCreacionFunctions(this.bildboard).setVisible(true);
+            new PaginaCreacionFunctions(this.bildboardDisponibles).setVisible(true);
         } else {
             jlError.setVisible(true);
         }
     }//GEN-LAST:event_btnNuevaFuncionActionPerformed
-
+    /**
+     * Evento del boton Importar Funcion
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         JFileChooser fileChooser = new JFileChooser(".\\DOM");
         File ruta;
@@ -281,15 +297,14 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         int contAgre = 0;
         int contDesc = 0;
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo XML", "xml");
-
+        // utilizamos un fileChooser para obtener la ruta del fichero que queremos importar
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setDialogTitle("Selecciona un archivo tipo xml");
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setFileFilter(filter);
         if (fileChooser.showOpenDialog(this) != JFileChooser.CANCEL_OPTION) {
             ruta = fileChooser.getSelectedFile().getAbsoluteFile();
-            //ReaderDom.leerBillboard(ruta);
-            for (Billboard b : ReaderDom.leerBillboard(ruta)) {
+            for (Billboard b : ReaderDom.leerBillboard(ruta)) { // Comprueba si esas carteleras estan ya en el fichero
                 agregar = true;
                 for (Billboard b2 : this.bildboard) {
                     if (b.equals(b2)) {
@@ -304,18 +319,22 @@ public class PaginaPrincipal extends javax.swing.JFrame {
                 }
             }
             escribirSecuencialLista(this.bildboard);
-            JOptionPane.showMessageDialog(rootPane, "Se han guardado "+contAgre+" carteleras\n Se han descartado "+contDesc+" carteleras");
+            JOptionPane.showMessageDialog(rootPane, "Se han guardado " + contAgre + " carteleras\n Se han descartado " + contDesc + " carteleras"); //Mensaje indicando cuantas carteleras se han metido y descartadas
 
         }
 
     }//GEN-LAST:event_btnImportarActionPerformed
-
+    /**
+     * Evento del boton Exportar 
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         JFileChooser fileChooser = new JFileChooser(".\\DOM");
         File ruta;
-
+        //Usamos un FileChooser para indicar donde guardamos el fichero
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setDialogTitle("Selecciona un archivo tipo xml");
+        fileChooser.setDialogTitle("Selecciona un directorio");
         fileChooser.setMultiSelectionEnabled(false);
         if (fileChooser.showOpenDialog(this) != JFileChooser.CANCEL_OPTION) {
             ruta = fileChooser.getSelectedFile().getAbsoluteFile();
@@ -323,7 +342,11 @@ public class PaginaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Se ha exportado correctamente");
         }
     }//GEN-LAST:event_btnExportarActionPerformed
-
+    /**
+     * Evento del boton Importar con Sax
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void btnImportarSaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarSaxActionPerformed
         JFileChooser fileChooser = new JFileChooser(".\\DOM");
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivo XML", "xml");
@@ -331,15 +354,15 @@ public class PaginaPrincipal extends javax.swing.JFrame {
         boolean agregar;
         int contAgre = 0;
         int contDesc = 0;
-        
+        //Utilizamos un fileChooser para indicar el fichero que queremos usar
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setDialogTitle("Selecciona un archivo tipo xml");
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setFileFilter(filter);
         if (fileChooser.showOpenDialog(this) != JFileChooser.CANCEL_OPTION) {
-             
+
             ruta = fileChooser.getSelectedFile().getAbsoluteFile();
-            for (Billboard b : ReaderDom.leerBillboardSAX(ruta)) {
+            for (Billboard b : ReaderDom.leerBillboardSAX(ruta)) {//Comprueba que carteleras estan repetidas
                 agregar = true;
                 for (Billboard b2 : this.bildboard) {
                     if (b.equals(b2)) {
@@ -354,7 +377,7 @@ public class PaginaPrincipal extends javax.swing.JFrame {
                 }
             }
             escribirSecuencialLista(this.bildboard);
-            JOptionPane.showMessageDialog(rootPane, "Se han guardado "+contAgre+" carteleras\n Se han descartado "+contDesc+" carteleras");
+            JOptionPane.showMessageDialog(rootPane, "Se han guardado " + contAgre + " carteleras\n Se han descartado " + contDesc + " carteleras");
 
             JOptionPane.showMessageDialog(rootPane, "Se ha importado correctamente");
         }
@@ -395,7 +418,11 @@ public class PaginaPrincipal extends javax.swing.JFrame {
             }
         });
     }
-
+    /**
+     * Funcion que se encarga de mover las carpetas de las funciones obsoletas
+     * @param fecha recibe el nombre del fichero que es la fecha del dia de emision
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void moverCarpetasObsoletas(String fecha) {
         File from = new File(".\\Funciones\\" + fecha);
         File to = new File(".\\FuncionesAntiguas\\" + fecha);

@@ -17,29 +17,35 @@ import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 
 /**
+ * Ventana encargada de la creacion de nuevas funciones
  *
- * @author JoseVi
+ * @author Jose Vicente Vargas Mestanza
  */
 public class PaginaCreacionFunctions extends javax.swing.JFrame {
 
     private LinkedList<Billboard> billboards;
     private ArrayList<String> nombres = new ArrayList();
+
     /**
-    *
-    * @author JoseVi
-    */
+     * Constructor encargado de la inicializacion de la ventana
+     *
+     * @author Jose Vicente Vargas Mestanza
+     * @param billboards Lista con todas las carteleras
+     */
     public PaginaCreacionFunctions(LinkedList<Billboard> billboards) {
+        //Para que la ventana se muestre en el centro de la pantalla
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
         int width = pantalla.width;
         setSize(width / 2, height / 2);
         setLocationRelativeTo(null);
+
         this.billboards = billboards;
-        for (Billboard b : billboards) {
+        for (Billboard b : billboards) { //para obtener todos los nombres de todas las carteleras
             nombres.add(b.getPelicula());
         }
         initComponents();
-        
+
         jlError.setVisible(false);
     }
 
@@ -205,91 +211,96 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     /**
-    *
-    * @author JoseVi
-    */
+     * Evento del boton volver
+     *
+     * @author Jose Vicente Vargas Mestanza
+     */
     private void jbVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverActionPerformed
         this.setVisible(false);
-        new PaginaPrincipal(this.billboards).setVisible(true);
+        new PaginaPrincipal().setVisible(true);
     }//GEN-LAST:event_jbVolverActionPerformed
     /**
-    *
-    * @author JoseVi
-    */
+     * Evento del boton guardar, se encarga de validar y crear el objeto para
+     * guardarlo en un fichero binario
+     *
+     * @author JoseVi
+     */
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Instant instant;
         ZonedDateTime zdt;
-        LocalDate fecha= null;
+        LocalDate fecha = null;
         File file;
-        
+
         boolean validacion = true;
         String error = "";
         Functions aux;
-        Billboard cartelera = this.billboards.get(jcbPelicula.getSelectedIndex());
+        Billboard cartelera = this.billboards.get(jcbPelicula.getSelectedIndex()); //Obtiene la cartelera seleccionada en el combo box
         int hora = jsfHora.getValue();
         int min = jsfMin.getValue();
         int sala = jcbSala.getSelectedIndex();
         String precio = tfPrecio.getText();
-        float precioNum=0.0f;
-        
-        
-        if(precio.isBlank()){
+        float precioNum = 0.0f;
+
+        if (precio.isBlank()) {
             validacion = false;
             error += "No puede estar vacio el precio.\n";
-        }else{
-            try{
+        } else {
+            try {
                 precioNum = Float.parseFloat(precio);
-            }catch(NumberFormatException nfe){
+            } catch (NumberFormatException nfe) {
                 validacion = false;
                 error += "Se ha introducio un valor no valido.\n";
             }
         }
-        
-        try{
+
+        try {//Se realiza la transformacion de la fecha de Date a LocalDate
             instant = jdcFecha.getDate().toInstant();
             zdt = instant.atZone(ZoneId.systemDefault());
             fecha = zdt.toLocalDate();
-            if(fecha.isBefore(LocalDate.now())){
+            if (fecha.isBefore(LocalDate.now())) {
                 validacion = false;
                 error += "No puede ser ninguna de las fechas menores que la actual.\n";
-            }else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
+            } else if (fecha.isBefore(cartelera.getInicio()) || fecha.isAfter(cartelera.getFinalizacion())) {
                 validacion = false;
-                error += "La fecha debe ser entre "+cartelera.getInicio().toString()+" y "+cartelera.getFinalizacion().toString();
+                error += "La fecha debe ser entre " + cartelera.getInicio().toString() + " y " + cartelera.getFinalizacion().toString();
             }
-        }catch(NullPointerException npe){
+        } catch (NullPointerException npe) {
             validacion = false;
             error += "No puede estar vacia la fecha.\n";
         }
-        
-        if(!validacion){
+
+        if (!validacion) {
             jlError.setText(error);
             jlError.setForeground(Color.red);
             jlError.setVisible(true);
-        }else{
-            aux = new Functions(cartelera,fecha,precioNum,sala,hora,min);
-            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min,fecha.toString());
-            
-            if (!file.exists()){
+        } else {
+            aux = new Functions(cartelera, fecha, precioNum, sala, hora, min);
+            file = FilesFunction.createFilesFunction(cartelera.getPelicula(), hora, min, fecha.toString());
+
+            if (!file.exists()) {
                 jlError.setText("Se ha guardado correctamente");
                 jlError.setVisible(true);
                 jlError.setForeground(Color.blue);
                 FilesFunction.WriteShow(file, aux);
                 vaciarDatos();
-            }else{
+            } else {
                 error = "Esta funcion ya existe";
                 jlError.setText(error);
                 jlError.setForeground(Color.red);
                 jlError.setVisible(true);
             }
         }
-        
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jcbPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbPeliculaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbPeliculaActionPerformed
-
-    private void vaciarDatos(){
+    /**
+     * Se encarga de vaciar los campos de la ventana
+     * @author Jose Vicente Vargas Mestanza
+     */
+    private void vaciarDatos() {
 
         jsfHora.setValue(0);
         jsfMin.setValue(0);
@@ -299,7 +310,7 @@ public class PaginaCreacionFunctions extends javax.swing.JFrame {
         jdcFecha.setDate(null);
 
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
