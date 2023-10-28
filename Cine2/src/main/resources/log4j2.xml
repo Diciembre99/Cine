@@ -24,7 +24,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="CineApp.FilesFunction" level="trace">
+        <Logger name="com.plaga.cine.FilesManage.FilesFunction" level="trace">
             <AppenderRef ref="rollingFile"/>
         </Logger>
         <Root level="error">
