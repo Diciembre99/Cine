@@ -6,6 +6,8 @@ package com.plaga.cine.View;
 
 import com.plaga.cine.FilesManage.RandomFilesFunction;
 import com.plaga.cine.Modules.Client;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.*;
 import java.io.File;
@@ -24,6 +26,11 @@ public class EditUserVip extends javax.swing.JFrame {
      * Creates new form EditUserVip
      */
     public EditUserVip() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = pantalla.height;
+        int width = pantalla.width;
+        setSize(width / 2, height / 2);
+        setLocationRelativeTo(null);
         initComponents();
         File file = new File(".\\ClientesVip\\ClientesVip.txt");
         List<Client> userVips = RandomFilesFunction.ReadFile(file);

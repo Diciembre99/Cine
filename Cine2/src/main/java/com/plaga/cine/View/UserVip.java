@@ -2,6 +2,8 @@ package com.plaga.cine.View;
 
 import com.plaga.cine.FilesManage.RandomFilesFunction;
 import com.plaga.cine.Modules.Client;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,11 @@ public class UserVip extends javax.swing.JFrame {
      * Creates new form UserVip
      */
     public UserVip() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = pantalla.height;
+        int width = pantalla.width;
+        setSize(width / 2, height / 2);
+        setLocationRelativeTo(null);
         initComponents();
         showUserVips();
     }
@@ -194,6 +201,7 @@ public class UserVip extends javax.swing.JFrame {
         String name = txtName.getText();
         String dni = txtDNI.getText();
         Matcher matcher = pattern.matcher(dni);
+        
         if (matcher.matches() && !name.isBlank()) {
             Client client = new Client(name, dni, (short) age);
             File file = new File(".\\ClientesVip\\ClientesVip.txt");
