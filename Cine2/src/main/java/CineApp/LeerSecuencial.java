@@ -1,7 +1,6 @@
 package CineApp;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,6 +21,11 @@ public class LeerSecuencial {
     private static final Logger logger = LogManager.getRootLogger();
 
     /**
+     * Lee de forma secuencial los datos de películas almacenados en un archivo
+     * y devuelve una lista de objetos Billboard.
+     *
+     * @return Una lista de objetos Billboard con los datos de las películas.
+     *
      * @author Alex Pineño Sanchez, Jose Vicente Vargas Mestanza
      */
     public static LinkedList<Billboard> leerSecuencial() {
@@ -35,14 +39,14 @@ public class LeerSecuencial {
             String linea;
             while ((linea = bufferLectura.readLine()) != null) {
                 datosPeliculas = linea.split("\\*");
-                billboard.add(new Billboard(datosPeliculas[0],LocalDate.parse(datosPeliculas[1]),LocalDate.parse(datosPeliculas[2]),Gender.valueOf(datosPeliculas[3]),AgeCategory.valueOf(datosPeliculas[4])));
+                billboard.add(new Billboard(datosPeliculas[0], LocalDate.parse(datosPeliculas[1]), LocalDate.parse(datosPeliculas[2]), Gender.valueOf(datosPeliculas[3]), AgeCategory.valueOf(datosPeliculas[4])));
             }
 
             bufferLectura.close();
         } catch (IOException e) {
             logger.error("Se producio un error en la lectura");
         }
-        
+
         return billboard;
     }
 }

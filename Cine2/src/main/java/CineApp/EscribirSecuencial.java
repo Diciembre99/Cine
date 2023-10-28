@@ -8,18 +8,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
+ * Clase que escribira en modo secuencial
+ * 
  * @author Alex Pineño Sanchez
  */
 public class EscribirSecuencial {
 
-    private static final Logger logger = LogManager.getRootLogger();
-    final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt";
+    private static final Logger logger = LogManager.getRootLogger(); // Logger a utilizar
+    final static String nombreArchivo = ".\\Peliculas\\ListadoPeliculas.txt"; // Ruta definitva del archivo de texto
     
     /**
      * @author Alex Pineño Sanchez
-     * @param pelicula
-     * @param eliminar
+     * @param pelicula Objeto Billboard a escrbir
+     * @param eliminar Boolean que indicara si sobreescribir el contenido o agregarlo
      */
     
      public static void escribirSecuencial(Billboard pelicula, boolean eliminar) {
